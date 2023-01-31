@@ -7,8 +7,9 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 // Screens
 import SplashScreen from './screens/SplashScreen';
-import SlideScreen from './screens/SlideScreen';
 import MainScreen from './screens/MainScreen';
+import SignUpScreen from './screens/SignUpScreen';
+import InformationScreen from './screens/InformationScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -23,15 +24,21 @@ const App = () => {
           options={{headerShown: false}}
         />
         <Stack.Screen
-          name="Slide"
-          component={SlideScreen}
-          options={{headerShown: false}}
-        />
-        <Stack.Screen
           name="Main"
           component={MainScreen}
           options={{headerShown: false}}
         />
+        <Stack.Screen
+          name="SignUp"
+          component={SignUpScreen}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="Information"
+          component={InformationScreen}
+          options={{headerShown: false}}
+        />
+        
       </Stack.Navigator>
     </NavigationContainer>
   );

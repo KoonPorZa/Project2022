@@ -21,7 +21,7 @@ const MainScreen = () => {
     { key: 'search', title: 'ค้นหา', focusedIcon: 'magnify' },
     { key: 'mycourse', title: 'หลักสูตร', focusedIcon: 'bookshelf' },
     { key: 'favorite', title: 'ถูกใจ', focusedIcon: 'heart', unfocusedIcon: 'heart-outline' },
-    { key: 'login', title: 'เข้าสู่ระบบ', focusedIcon: 'account-circle', unfocusedIcon: 'account-circle-outline' },
+    { key: 'login', title: 'บัญชี', focusedIcon: 'account-circle', unfocusedIcon: 'account-circle-outline' },
   ]);
 
   const renderScene = BottomNavigation.SceneMap({

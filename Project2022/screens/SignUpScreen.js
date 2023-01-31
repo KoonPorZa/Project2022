@@ -1,28 +1,23 @@
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, View, KeyboardAvoidingView} from 'react-native';
 import React, { useState } from 'react';
 
 import { useNavigation } from '@react-navigation/native';
 import { TextInput, Button } from 'react-native-paper'
 
-import SignUpScreen from '../SignUpScreen';
-
-const LoginScreen = () => {
+const SignUpScreen = () => {
 
   const navigation = useNavigation()
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [repeatpassword, setRepeatPassword] = useState('')
 
   const onLoginPress = () => {
-    alert('onLoginPress')
-  }
-
-  const onForgotPasswordPress = () => {
-    alert('OnForgotPasswordPress')
+    navigation.navigate('Main')
   }
 
   const onSignUpPress = () => {
-    navigation.navigate('SignUp')
+    navigation.navigate('Information')
   }
 
   return (
@@ -45,7 +40,7 @@ const LoginScreen = () => {
           fontSize: 20,
           fontWeight: 'bold',
           }}>
-            เข้าสู่ระบบ
+            สร้างบัญชี
         </Text>
       </View>
 
@@ -64,7 +59,18 @@ const LoginScreen = () => {
           style={styles.input}
           label={'Password'}
           value={password}
+          secureTextEntry
           onChangeText={setPassword}
+          mode='outlined'
+          activeOutlineColor='#5C51A4'
+          outlineStyle={{ borderRadius: 15 }}
+        />
+        <TextInput
+          style={styles.input}
+          label={'Repeat Password'}
+          value={repeatpassword}
+          secureTextEntry
+          onChangeText={setRepeatPassword}
           mode='outlined'
           activeOutlineColor='#5C51A4'
           outlineStyle={{ borderRadius: 15 }}
@@ -73,29 +79,16 @@ const LoginScreen = () => {
           style={styles.btn}
           mode='contained'
           buttonColor='#5C51A4'
-          onPress={onLoginPress}
-        >เข้าสู่ระบบ</Button>
-        {/* <Button
-          mode='text'
-          style={{
-            marginTop: 10,
-          }}
-          onPress={onForgotPasswordPress}
-        >ฉันลืมรหัสผ่าน</Button> */}
-        <Text style={styles.text} onPress={onForgotPasswordPress}>ฉันลืมรหัสผ่าน</Text>
-        {/* <Button
-          mode='text'
           onPress={onSignUpPress}
-        >สร้างบัญชีของฉัน</Button> */}
-        <Text style={styles.text} onPress={onSignUpPress}>สร้างบัญชีของฉัน</Text>
+        >สร้างบัญชี</Button>
+        <Text style={styles.text} onPress={onLoginPress}>ฉันมีบัญชีผู้ใช้แล้ว</Text>
       </View>
-
 
     </View>
   );
 };
 
-export default LoginScreen;
+export default SignUpScreen;
 
 const styles = StyleSheet.create({
   form: {
