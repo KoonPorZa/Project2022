@@ -1,20 +1,20 @@
 import {StyleSheet, Text, View, Button} from 'react-native';
-import React, { useEffect } from 'react';
+import React, {useEffect} from 'react';
 
 // React Native Navigation
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import {NavigationContainer} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 // Screens
 import SplashScreen from './screens/SplashScreen';
 import MainScreen from './screens/MainScreen';
 import SignUpScreen from './screens/SignUpScreen';
 import InformationScreen from './screens/InformationScreen';
+import DetailCourseScreen from './screens/DetailCourseScreen';
 
 const Stack = createNativeStackNavigator();
 
 const App = () => {
-
   return (
     <NavigationContainer>
       <Stack.Navigator>
@@ -38,7 +38,11 @@ const App = () => {
           component={InformationScreen}
           options={{headerShown: false}}
         />
-        
+        <Stack.Screen
+          name="DetailCourse"
+          component={DetailCourseScreen}
+          options={{title: 'รายละเอียดหลักสูตร'}}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );

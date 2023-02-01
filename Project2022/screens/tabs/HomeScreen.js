@@ -2,16 +2,16 @@ import {StyleSheet, Text, View, ScrollView} from 'react-native';
 import React from 'react';
 
 import {Card, ToggleButton} from 'react-native-paper';
+import { useNavigation } from '@react-navigation/native';
 
 import {Rating} from 'react-native-ratings';
 
 const HomeScreen = () => {
+
+  const navigation = useNavigation()
+
   let cardTitle = 'พัฒนาโมไบล์ด้วย Flutter 3.3.1 (Building 15 Projects)';
   let cardSubtitle = 'โดย ' + 'จักริน นิลพันธ์';
-
-  const [visible, setVisible] = React.useState(false);
-  const openMenu = () => setVisible(true);
-  const closeMenu = () => setVisible(false);
 
   const [status, setStatus] = React.useState('unchecked');
   const [icon, setIcon] = React.useState('heart-outline');
@@ -22,7 +22,7 @@ const HomeScreen = () => {
   };
 
   const onCardPress = () => {
-    alert('onCardPress');
+    navigation.navigate('DetailCourse')
   };
 
   return (
