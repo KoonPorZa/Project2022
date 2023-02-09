@@ -1,20 +1,27 @@
 import {StyleSheet, Text, View, ScrollView} from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 
-import {Card, ToggleButton} from 'react-native-paper';
-import { useNavigation } from '@react-navigation/native';
+import {
+  Card,
+  ToggleButton,
+  Searchbar,
+  IconButton,
+  Appbar,
+} from 'react-native-paper';
+import {useNavigation} from '@react-navigation/native';
 
 import {Rating} from 'react-native-ratings';
 
 const HomeScreen = () => {
-
-  const navigation = useNavigation()
+  const navigation = useNavigation();
 
   let cardTitle = 'พัฒนาโมไบล์ด้วย Flutter 3.3.1 (Building 15 Projects)';
   let cardSubtitle = 'โดย ' + 'จักริน นิลพันธ์';
 
-  const [status, setStatus] = React.useState('unchecked');
-  const [icon, setIcon] = React.useState('heart-outline');
+  const [status, setStatus] = useState('unchecked');
+  const [icon, setIcon] = useState('heart-outline');
+
+  const [search, setSearch] = useState('');
 
   const onButtonToggle = value => {
     setStatus(status === 'checked' ? 'unchecked' : 'checked');
@@ -22,8 +29,12 @@ const HomeScreen = () => {
   };
 
   const onCardPress = () => {
-    navigation.navigate('DetailCourse')
+    navigation.navigate('DetailCourse');
   };
+
+  const onChangeSearch = () => {};
+
+  const onSearchPress = () => {};
 
   return (
     <View
@@ -32,7 +43,7 @@ const HomeScreen = () => {
         backgroundColor: '#fff',
       }}>
       {/* header */}
-      <View
+      {/* <View
         style={{
           width: '100%',
           height: 60,
@@ -40,6 +51,7 @@ const HomeScreen = () => {
           borderColor: '#5C51A4',
           justifyContent: 'center',
           alignItems: 'center',
+          flexDirection: 'row',
         }}>
         <Text
           style={{
@@ -49,12 +61,41 @@ const HomeScreen = () => {
           }}>
           หน้าหลัก
         </Text>
-      </View>
+        <View style={{}}>
+          <IconButton icon="camera" size={20} />
+        </View>
+      </View> */}
+
+      <Appbar.Header elevated={false} style={{borderBottomWidth: 0.5, borderBottomColor: '#8e8e8e'}}>
+        <Appbar.Content title="แนะนำหลักสูตร" />
+        <Appbar.Action icon="magnify" onPress={onSearchPress} />
+      </Appbar.Header>
 
       <ScrollView
         style={{
           height: '100%',
         }}>
+        {/* Search Bar */}
+        {/* <View
+          style={{
+            alignItems: 'center',
+            marginTop: 10,
+          }}>
+          <Searchbar
+            placeholder="ค้นหา"
+            onChangeText={setSearch}
+            value={search}
+            elevation={0}
+            style={{
+              borderColor: '#5C51A4',
+              borderWidth: 1,
+              borderRadius: 50,
+              width: '90%',
+              marginBottom: 5,
+            }}
+          />
+        </View> */}
+
         {/* Card */}
         <Card style={styles.card} onPress={onCardPress}>
           <Card.Cover

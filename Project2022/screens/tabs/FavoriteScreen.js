@@ -1,7 +1,7 @@
 import {StyleSheet, Text, View, ScrollView} from 'react-native';
 import React from 'react';
 
-import {Card, ToggleButton} from 'react-native-paper';
+import {Card, ToggleButton, Appbar} from 'react-native-paper';
 
 import {Rating} from 'react-native-ratings';
 
@@ -28,7 +28,7 @@ const FavoriteScreen = () => {
         backgroundColor: '#fff',
       }}>
       {/* header */}
-      <View
+      {/* <View
         style={{
           width: '100%',
           height: 60,
@@ -45,7 +45,13 @@ const FavoriteScreen = () => {
           }}>
           ถูกใจ
         </Text>
-      </View>
+      </View> */}
+
+      <Appbar.Header elevated={false} style={{borderBottomWidth: 0.5, borderBottomColor: '#8e8e8e'}}>
+        <Appbar.Content title="รายการโปรด" />
+        <Appbar.Action icon="magnify" onPress={()=>{}} />
+      </Appbar.Header>
+
       <ScrollView
         style={{
           height: '100%',

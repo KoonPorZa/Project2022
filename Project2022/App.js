@@ -11,6 +11,7 @@ import MainScreen from './screens/MainScreen';
 import SignUpScreen from './screens/SignUpScreen';
 import InformationScreen from './screens/InformationScreen';
 import DetailCourseScreen from './screens/DetailCourseScreen';
+import BuyCourseScreen from './screens/BuyCourseScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -37,6 +38,11 @@ const App = () => {
           name="Information"
           component={InformationScreen}
           options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="BuyCourse"
+          component={BuyCourseScreen}
+          options={{title: 'ชำระเงิน'}}
         />
         <Stack.Screen
           name="DetailCourse"

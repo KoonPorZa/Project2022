@@ -36,24 +36,7 @@ const SearchScreen = () => {
             ค้นหา
         </Text>
       </View>
-      <View 
-        style={{ 
-          alignItems: 'center',
-          marginTop: 10,
-        }}>
-        <Searchbar
-          placeholder="ค้นหา"
-          onChangeText={setSearch}
-          value={search}
-          elevation={0}
-          style={{ 
-            borderColor: '#5C51A4',
-            borderWidth: 1,
-            borderRadius: 50,
-            width: '90%',
-          }}
-        />
-      </View>
+      
     </View>
   )
 }

@@ -3,37 +3,30 @@ import React, {useState, useEffect} from 'react';
 import {
   Title,
   ToggleButton,
-  IconButton,
   Appbar,
-  FAB,
-  useTheme,
   Button,
-  Avatar
+  Avatar,
 } from 'react-native-paper';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
-
+import {useNavigation} from '@react-navigation/native';
 import {Rating} from 'react-native-ratings';
-
 import DatePicker from 'react-native-date-picker';
 
 const DetailCourseScreen = () => {
   const [queue, setQueue] = useState(0);
 
-  const [date, setDate] = useState(new Date());
-  const [open, setOpen] = useState(false);
+  const navigation = useNavigation();
 
-  const [status, setStatus] = React.useState('unchecked');
-  const [icon, setIcon] = React.useState('heart-outline');
-
+  // Toggle Button
+  const [status, setStatus] = useState('unchecked');
+  const [icon, setIcon] = useState('heart-outline');
   const onButtonToggle = value => {
     setStatus(status === 'checked' ? 'unchecked' : 'checked');
     setIcon(status === 'checked' ? 'heart-outline' : 'heart');
   };
 
-  const onButtonPress = () => {
-    alert('onButtonPress');
-  };
-
+  // Datetime
+  const [date, setDate] = useState(new Date());
+  const [open, setOpen] = useState(false);
   const [currentDate, setCurrentDate] = useState('');
   const [currentTime, setCurrentTime] = useState('');
   useEffect(() => {
@@ -48,6 +41,11 @@ const DetailCourseScreen = () => {
     setCurrentDate(date + ' ' + monthName + ' ' + year + ' ');
     setCurrentTime(hours + ':00 - ' + (hours + 3) + ':00 น.');
   }, []);
+
+  // Call Function onPress
+  const onButtonPress = () => {
+    navigation.navigate('BuyCourse')
+  };
 
   return (
     <View style={{backgroundColor: '#fff', flex: 1}}>
@@ -99,8 +97,7 @@ const DetailCourseScreen = () => {
             <Text style={styles.text}>
               หลักสูตรนี้คุณจะได้เรียนรู้การประยุกต์ใช้งาน Flutter
               สำหรับการสร้างโมไบล์แอปพลิเคชันทั้งหมด 15 แอปพลิเคชัน
-              รวมอยู่ในหลักสูตรเดียว
-              อัดแน่นด้วยเนื้อหาคุณภาพจากผู้สอนที่ชำนาญ
+              รวมอยู่ในหลักสูตรเดียว อัดแน่นด้วยเนื้อหาคุณภาพจากผู้สอนที่ชำนาญ
             </Text>
           </View>
           <View style={styles.detail}>
@@ -108,13 +105,11 @@ const DetailCourseScreen = () => {
               วิทยากร
             </Text>
             <Avatar.Image
-            style={{marginBottom:20}}
-            size={60}
-            source={{uri: 'https://picsum.photos/500'}}
-          />
-            <Text style={styles.text}>
-              
-            </Text>
+              style={{marginBottom: 20}}
+              size={60}
+              source={{uri: 'https://picsum.photos/500'}}
+            />
+            <Text style={styles.text}></Text>
           </View>
         </View>
 
@@ -143,14 +138,22 @@ const DetailCourseScreen = () => {
           }}>
           ฿ 1,500.00
         </Text>
-        <Button
-          mode="contained"
-          buttonColor="#5C51A4"
-          style={styles.btn}
-          onPress={onButtonPress}
-          labelStyle={styles.txtbtn}>
-          ซื้อเลย
-        </Button>
+        <View style={{flexDirection: 'row', alignItems: 'center'}}>
+          <Button
+            mode="contained"
+            buttonColor="#5C51A4"
+            style={styles.btn}
+            onPress={onButtonPress}
+            labelStyle={styles.txtbtn}>
+            ซื้อเลย
+          </Button>
+          <ToggleButton
+            icon={icon}
+            status={status}
+            onPress={onButtonToggle}
+            style={styles.btnfav}
+          />
+        </View>
       </Appbar>
     </View>
   );
@@ -190,9 +193,16 @@ const styles = StyleSheet.create({
   },
   btn: {
     borderRadius: 5,
-    width: 220,
+    width: 170,
     height: 50,
     justifyContent: 'center',
+  },
+  btnfav: {
+    borderRadius: 5,
+    width: 50,
+    height: 50,
+    justifyContent: 'center',
+    marginLeft: 5,
   },
   txtbtn: {
     fontWeight: 'bold',

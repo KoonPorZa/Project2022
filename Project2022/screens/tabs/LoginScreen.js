@@ -1,53 +1,42 @@
 import {StyleSheet, Text, View} from 'react-native';
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 
-import { useNavigation } from '@react-navigation/native';
-import { TextInput, Button } from 'react-native-paper'
+import {useNavigation} from '@react-navigation/native';
+import {TextInput, Button, Appbar} from 'react-native-paper';
 
 import SignUpScreen from '../SignUpScreen';
 
 const LoginScreen = () => {
+  const navigation = useNavigation();
 
-  const navigation = useNavigation()
-
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   const onLoginPress = () => {
-    alert('onLoginPress')
-  }
+    alert('onLoginPress');
+  };
 
   const onForgotPasswordPress = () => {
-    alert('OnForgotPasswordPress')
-  }
+    alert('OnForgotPasswordPress');
+  };
 
   const onSignUpPress = () => {
-    navigation.navigate('SignUp')
-  }
+    navigation.navigate('SignUp');
+  };
 
   return (
-    <View style={{
+    <View
+      style={{
         flex: 1,
         backgroundColor: '#fff',
       }}>
-
       {/* Header */}
-      <View style={{
-          width: '100%',
-          height: 60,
-          borderBottomWidth: 0.3,
-          borderColor: '#5C51A4',
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}>
-        <Text style={{
-          color: '#000',
-          fontSize: 20,
-          fontWeight: 'bold',
-          }}>
-            เข้าสู่ระบบ
-        </Text>
-      </View>
+
+      <Appbar.Header
+        elevated={false}
+        style={{borderBottomWidth: 0.5, borderBottomColor: '#8e8e8e'}}>
+        <Appbar.Content title="เข้าสู่ระบบ" style={{alignItems: 'center'}} />
+      </Appbar.Header>
 
       {/* Input Form */}
       <View style={styles.form}>
@@ -56,41 +45,33 @@ const LoginScreen = () => {
           label={'Email'}
           value={email}
           onChangeText={setEmail}
-          mode='outlined'
-          activeOutlineColor='#5C51A4'
-          outlineStyle={{ borderRadius: 15 }}
+          mode="outlined"
+          activeOutlineColor="#5C51A4"
+          outlineStyle={{borderRadius: 15}}
         />
         <TextInput
           style={styles.input}
           label={'Password'}
           value={password}
           onChangeText={setPassword}
-          mode='outlined'
-          activeOutlineColor='#5C51A4'
-          outlineStyle={{ borderRadius: 15 }}
+          mode="outlined"
+          activeOutlineColor="#5C51A4"
+          outlineStyle={{borderRadius: 15}}
         />
         <Button
           style={styles.btn}
-          mode='contained'
-          buttonColor='#5C51A4'
-          onPress={onLoginPress}
-        >เข้าสู่ระบบ</Button>
-        {/* <Button
-          mode='text'
-          style={{
-            marginTop: 10,
-          }}
-          onPress={onForgotPasswordPress}
-        >ฉันลืมรหัสผ่าน</Button> */}
-        <Text style={styles.text} onPress={onForgotPasswordPress}>ฉันลืมรหัสผ่าน</Text>
-        {/* <Button
-          mode='text'
-          onPress={onSignUpPress}
-        >สร้างบัญชีของฉัน</Button> */}
-        <Text style={styles.text} onPress={onSignUpPress}>สร้างบัญชีของฉัน</Text>
+          mode="contained"
+          buttonColor="#5C51A4"
+          onPress={onLoginPress}>
+          เข้าสู่ระบบ
+        </Button>
+        <Text style={styles.text} onPress={onForgotPasswordPress}>
+          ฉันลืมรหัสผ่าน
+        </Text>
+        <Text style={styles.text} onPress={onSignUpPress}>
+          สร้างบัญชีของฉัน
+        </Text>
       </View>
-
-
     </View>
   );
 };
@@ -114,5 +95,5 @@ const styles = StyleSheet.create({
   text: {
     color: '#000',
     marginTop: 15,
-  }
+  },
 });
