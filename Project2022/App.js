@@ -12,6 +12,9 @@ import SignUpScreen from './screens/SignUpScreen';
 import InformationScreen from './screens/InformationScreen';
 import DetailCourseScreen from './screens/DetailCourseScreen';
 import BuyCourseScreen from './screens/BuyCourseScreen';
+import QueueScreen from './screens/tabs/QueueScreen';
+import QuizScreen from './screens/QuizScreen';
+import Quiz from './screens/Quiz';
 
 const Stack = createNativeStackNavigator();
 
@@ -48,6 +51,16 @@ const App = () => {
           name="DetailCourse"
           component={DetailCourseScreen}
           options={{title: 'รายละเอียดหลักสูตร'}}
+        />
+        <Stack.Screen
+          name="QuizScreen"
+          component={QuizScreen}
+          options={{title: 'รายละเอียดหลักสูตร'}}
+        />
+        <Stack.Screen
+          name="Quiz"
+          component={Quiz}
+          options={{title: 'แบบทดสอบ'}}
         />
       </Stack.Navigator>
     </NavigationContainer>

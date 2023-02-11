@@ -5,7 +5,7 @@ import {useNavigation} from '@react-navigation/native';
 import {Rating} from 'react-native-ratings';
 import DatePicker from 'react-native-date-picker';
 
-const DetailCourseScreen = () => {
+const QuizScreen = () => {
   const [queue, setQueue] = useState(0);
 
   const navigation = useNavigation();
@@ -38,14 +38,14 @@ const DetailCourseScreen = () => {
 
   // Call Function onPress
   const onButtonPress = () => {
-    navigation.navigate('BuyCourse');
+    navigation.navigate('Quiz')
   };
 
   return (
     <View style={{backgroundColor: '#fff', flex: 1}}>
       <ScrollView showsVerticalScrollIndicator={false}>
         <Image
-          source={{uri: 'https://picsum.photos/700'}}
+          source={{uri: 'https://picsum.photos/710'}}
           style={styles.image}
         />
         <View style={styles.content}>
@@ -139,21 +139,15 @@ const DetailCourseScreen = () => {
             style={styles.btn}
             onPress={onButtonPress}
             labelStyle={styles.txtbtn}>
-            ซื้อเลย
+            แบบทดสอบ
           </Button>
-          <ToggleButton
-            icon={icon}
-            status={status}
-            onPress={onButtonToggle}
-            style={styles.btnfav}
-          />
         </View>
       </Appbar>
     </View>
   );
 };
 
-export default DetailCourseScreen;
+export default QuizScreen;
 
 const styles = StyleSheet.create({
   image: {

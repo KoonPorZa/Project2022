@@ -4,8 +4,6 @@ import React, {useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {TextInput, Button, Appbar} from 'react-native-paper';
 
-import SignUpScreen from '../SignUpScreen';
-
 const LoginScreen = () => {
   const navigation = useNavigation();
 

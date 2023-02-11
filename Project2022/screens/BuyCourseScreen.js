@@ -4,8 +4,6 @@ import React, {useState, useEffect} from 'react';
 import {Button, Text, TextInput} from 'react-native-paper';
 import DatePicker from 'react-native-date-picker';
 
-import DateTimePickerModal from 'react-native-modal-datetime-picker';
-
 const BuyCourseScreen = () => {
   const [name, setName] = useState('');
 
@@ -24,20 +22,9 @@ const BuyCourseScreen = () => {
     setCurrentTime(hours + ':00 - ' + (hours + 3) + ':00 น.');
   }, []);
 
-  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
-
-  const showDatePicker = () => {
-    setDatePickerVisibility(true);
-  };
-
-  const hideDatePicker = () => {
-    setDatePickerVisibility(false);
-  };
-
-  const handleConfirm = date => {
-    console.warn('A date has been picked: ', date);
-    hideDatePicker();
-  };
+const onSubmitPress = () => {
+  
+}
 
   return (
     <View style={{backgroundColor: '#fff', flex: 1, alignItems: 'center'}}>
@@ -111,7 +98,7 @@ const BuyCourseScreen = () => {
             <Text style={styles.txt}>วันที่</Text>
           </View>
           <View style={styles.right_box}>
-          <TextInput
+            <TextInput
               style={styles.input}
               label={'เวลา'}
               value={name}
@@ -161,7 +148,7 @@ const BuyCourseScreen = () => {
           <View style={styles.right_box}>
             <TextInput
               style={styles.input}
-              label={'เวลา'}
+              label={'สลิปโอนเงิน'}
               value={name}
               onChangeText={setName}
               mode="outlined"
@@ -170,16 +157,13 @@ const BuyCourseScreen = () => {
             />
           </View>
         </View>
-
-        <View>
-          <Button title="Show Date Picker" onPress={showDatePicker} />
-          <DateTimePickerModal
-            isVisible={isDatePickerVisible}
-            mode="date"
-            onConfirm={handleConfirm}
-            onCancel={hideDatePicker}
-          />
-        </View>
+        <Button
+          style={styles.btn}
+          mode="contained"
+          buttonColor="#5C51A4"
+          onPress={onSubmitPress}>
+          เสร็จสิ้น
+        </Button>
       </ScrollView>
     </View>
   );
@@ -217,5 +201,9 @@ const styles = StyleSheet.create({
     width: '85%',
     marginBottom: 10,
     backgroundColor: '#fff',
+  },
+  btn: {
+    width: 150,
+    marginTop: 10,
   },
 });
