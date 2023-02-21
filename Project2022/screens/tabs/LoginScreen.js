@@ -15,7 +15,7 @@ const LoginScreen = () => {
   };
 
   const onForgotPasswordPress = () => {
-    alert('OnForgotPasswordPress');
+    navigation.navigate('ForgotPassword');
   };
 
   const onSignUpPress = () => {

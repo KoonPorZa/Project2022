@@ -1,10 +1,11 @@
 import {StyleSheet, View, ScrollView, Image} from 'react-native';
 import React, {useState, useEffect} from 'react';
-
-import {Button, Text, TextInput} from 'react-native-paper';
+import {useNavigation} from '@react-navigation/native';
+import {Button, Text, TextInput, Appbar} from 'react-native-paper';
 import DatePicker from 'react-native-date-picker';
 
 const BuyCourseScreen = () => {
+  const navigation = useNavigation();
   const [name, setName] = useState('');
 
   const [currentDate, setCurrentDate] = useState('');
@@ -22,12 +23,25 @@ const BuyCourseScreen = () => {
     setCurrentTime(hours + ':00 - ' + (hours + 3) + ':00 น.');
   }, []);
 
-const onSubmitPress = () => {
-  
-}
+  const onSubmitPress = () => {};
+  const onBackPress = () => {
+    navigation.navigate('DetailCourse');
+  };
 
   return (
-    <View style={{backgroundColor: '#fff', flex: 1, alignItems: 'center'}}>
+    <View
+      style={{
+        flex: 1,
+        backgroundColor: '#fff',
+      }}>
+      {/* Header */}
+
+      <Appbar.Header
+        elevated={false}
+        style={{borderBottomWidth: 0.5, borderBottomColor: '#8e8e8e'}}>
+        <Appbar.BackAction onPress={onBackPress} />
+        <Appbar.Content title="การชำระเงิน" />
+      </Appbar.Header>
       <ScrollView>
         <View
           style={{

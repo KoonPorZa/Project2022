@@ -1,6 +1,6 @@
 import {StyleSheet, Text, View, ScrollView} from 'react-native';
 import React from 'react';
-
+import {useNavigation} from '@react-navigation/native';
 import {Card, ToggleButton, Appbar} from 'react-native-paper';
 
 import {Rating} from 'react-native-ratings';
@@ -8,7 +8,7 @@ import {Rating} from 'react-native-ratings';
 const FavoriteScreen = () => {
   let cardTitle = 'พัฒนาโมไบล์ด้วย Flutter 3.3.1 (Building 15 Projects)';
   let cardSubtitle = 'โดย ' + 'จักริน นิลพันธ์';
-
+  const navigation = useNavigation();
   const [status, setStatus] = React.useState('unchecked');
   const [icon, setIcon] = React.useState('heart-outline');
 
@@ -18,7 +18,7 @@ const FavoriteScreen = () => {
   };
 
   const onCardPress = () => {
-    alert('onCardPress');
+    navigation.navigate('DetailCourse')
   };
 
   return (

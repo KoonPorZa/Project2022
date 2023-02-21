@@ -18,7 +18,7 @@ const MainScreen = () => {
   const [index, setIndex] = React.useState(0);
   const [routes] = React.useState([
     { key: 'home', title: 'แนะนำ', focusedIcon: 'home', unfocusedIcon: 'home-outline'},
-    { key: 'queue', title: 'เข้าคิว', focusedIcon: 'magnify' },
+    { key: 'queue', title: 'เข้าคิว', focusedIcon: 'cart-outline' },
     { key: 'mycourse', title: 'หลักสูตรของฉัน', focusedIcon: 'bookshelf' },
     { key: 'favorite', title: 'ถูกใจ', focusedIcon: 'heart', unfocusedIcon: 'heart-outline' },
     { key: 'login', title: 'บัญชี', focusedIcon: 'account-circle', unfocusedIcon: 'account-circle-outline' },

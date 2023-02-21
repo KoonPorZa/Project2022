@@ -8,6 +8,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 // Screens
 import SplashScreen from './screens/SplashScreen';
 import MainScreen from './screens/MainScreen';
+import HomeScreen from './screens/tabs/HomeScreen';
 import SignUpScreen from './screens/SignUpScreen';
 import InformationScreen from './screens/InformationScreen';
 import DetailCourseScreen from './screens/DetailCourseScreen';
@@ -15,6 +16,9 @@ import BuyCourseScreen from './screens/BuyCourseScreen';
 import QueueScreen from './screens/tabs/QueueScreen';
 import QuizScreen from './screens/QuizScreen';
 import Quiz from './screens/Quiz';
+import ForgotPasswordScreen from './screens/ForgotPasswordScreen';
+
+import testapi from './Hooks/User/testapi';
 
 const Stack = createNativeStackNavigator();
 
@@ -45,22 +49,27 @@ const App = () => {
         <Stack.Screen
           name="BuyCourse"
           component={BuyCourseScreen}
-          options={{title: 'ชำระเงิน'}}
+          options={{headerShown: false}}
         />
         <Stack.Screen
           name="DetailCourse"
           component={DetailCourseScreen}
-          options={{title: 'รายละเอียดหลักสูตร'}}
+          options={{headerShown: false}}
         />
         <Stack.Screen
           name="QuizScreen"
           component={QuizScreen}
-          options={{title: 'รายละเอียดหลักสูตร'}}
+          options={{headerShown: false}}
         />
         <Stack.Screen
           name="Quiz"
           component={Quiz}
-          options={{title: 'แบบทดสอบ'}}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="ForgotPassword"
+          component={ForgotPasswordScreen}
+          options={{headerShown: false}}
         />
       </Stack.Navigator>
     </NavigationContainer>

@@ -41,8 +41,24 @@ const DetailCourseScreen = () => {
     navigation.navigate('BuyCourse');
   };
 
+  const onBackPress = () => {
+    navigation.navigate('Main');
+  };
+
   return (
-    <View style={{backgroundColor: '#fff', flex: 1}}>
+    <View
+      style={{
+        flex: 1,
+        backgroundColor: '#fff',
+      }}>
+      {/* Header */}
+
+      <Appbar.Header
+        elevated={false}
+        style={{borderBottomWidth: 0.5, borderBottomColor: '#8e8e8e'}}>
+        <Appbar.BackAction onPress={onBackPress} />
+        <Appbar.Content title="รายละเอียดหลักสูตร" />
+      </Appbar.Header>
       <ScrollView showsVerticalScrollIndicator={false}>
         <Image
           source={{uri: 'https://picsum.photos/700'}}
@@ -105,6 +121,13 @@ const DetailCourseScreen = () => {
             />
             <Text style={styles.text}></Text>
           </View>
+
+          {/* Comment Zone */}
+          <View style={styles.detail}>
+            <Text style={[styles.text, {fontWeight: 'bold', fontSize: 16}]}>
+              ความคิดเห็นเกี่ยวกับหลักสูตรนี้
+            </Text>
+          </View>
         </View>
 
         {/* <Button title="Open" onPress={() => setOpen(true)} /> */}
@@ -122,6 +145,7 @@ const DetailCourseScreen = () => {
           }}
         /> */}
       </ScrollView>
+
       <Appbar style={styles.bottom}>
         <Text
           style={{
@@ -167,6 +191,11 @@ const styles = StyleSheet.create({
   },
   detail: {
     marginVertical: 5,
+  },
+  title: {
+    color: 'black',
+    fontSize: '20',
+    fontWeight: 'bold',
   },
   text: {
     color: 'black',

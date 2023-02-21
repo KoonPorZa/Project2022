@@ -11,11 +11,31 @@ import {
 import {useNavigation} from '@react-navigation/native';
 
 const Quiz = () => {
+  const navigation = useNavigation();
   const [value, setValue] = React.useState('first');
 
-  const onSubmitPress = () => {};
+  const onSubmitPress = () => {
+    navigation.navigate('QuizScreen');
+  };
+
+  const onBackPress = () => {
+    navigation.navigate('QuizScreen');
+  };
+
   return (
-    <View>
+    <View
+      style={{
+        flex: 1,
+        backgroundColor: '#fff',
+      }}>
+      {/* Header */}
+
+      <Appbar.Header
+        elevated={false}
+        style={{borderBottomWidth: 0.5, borderBottomColor: '#8e8e8e'}}>
+        <Appbar.BackAction onPress={onBackPress} />
+        <Appbar.Content title="แบบทดสอบ" />
+      </Appbar.Header>
       <ScrollView>
         <Card style={styles.card}>
           <Card.Title title={'1. แบบทดสอบที่ 1'} />

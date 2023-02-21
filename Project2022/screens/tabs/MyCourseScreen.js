@@ -1,5 +1,5 @@
 import {StyleSheet, Text, View, ScrollView} from 'react-native';
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 
 import {Card, ToggleButton, Appbar} from 'react-native-paper';
 import {useNavigation} from '@react-navigation/native';
@@ -30,11 +30,13 @@ const MyCourseScreen = () => {
         backgroundColor: '#fff',
       }}>
       {/* header */}
-      <Appbar.Header elevated={false} style={{borderBottomWidth: 0.5, borderBottomColor: '#8e8e8e'}}>
+      <Appbar.Header
+        elevated={false}
+        style={{borderBottomWidth: 0.5, borderBottomColor: '#8e8e8e'}}>
         <Appbar.Content title="หลักสูตรที่ลงทะเบียน" />
-        <Appbar.Action icon="magnify" onPress={()=>{}} />
+        <Appbar.Action icon="magnify" onPress={() => {}} />
       </Appbar.Header>
-      
+
       <ScrollView
         style={{
           height: '100%',
@@ -62,10 +64,6 @@ const MyCourseScreen = () => {
             />
           </View>
         </Card>
-
-      
-
-        
       </ScrollView>
     </View>
   );

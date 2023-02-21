@@ -41,8 +41,24 @@ const QuizScreen = () => {
     navigation.navigate('Quiz')
   };
 
+  const onBackPress = () => {
+    navigation.navigate('Main');
+  };
+
   return (
-    <View style={{backgroundColor: '#fff', flex: 1}}>
+    <View
+      style={{
+        flex: 1,
+        backgroundColor: '#fff',
+      }}>
+      {/* Header */}
+
+      <Appbar.Header
+        elevated={false}
+        style={{borderBottomWidth: 0.5, borderBottomColor: '#8e8e8e'}}>
+        <Appbar.BackAction onPress={onBackPress} />
+        <Appbar.Content title="รายละเอียดหลักสูตร" />
+      </Appbar.Header>
       <ScrollView showsVerticalScrollIndicator={false}>
         <Image
           source={{uri: 'https://picsum.photos/710'}}
@@ -130,7 +146,7 @@ const QuizScreen = () => {
             fontWeight: 'bold',
             color: 'black',
           }}>
-          ฿ 1,500.00
+          คะแนนที่ได้ 10/10
         </Text>
         <View style={{flexDirection: 'row', alignItems: 'center'}}>
           <Button

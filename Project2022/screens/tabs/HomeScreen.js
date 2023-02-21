@@ -1,6 +1,5 @@
-import {StyleSheet, Text, View, ScrollView} from 'react-native';
-import React, {useState} from 'react';
-
+import {StyleSheet, Text, View, ScrollView, Button} from 'react-native';
+import React, {useState, useEffect} from 'react';
 import {
   Card,
   ToggleButton,
@@ -9,19 +8,31 @@ import {
   Appbar,
 } from 'react-native-paper';
 import {useNavigation} from '@react-navigation/native';
-
+import axios from 'axios';
 import {Rating} from 'react-native-ratings';
+
+// Hook
+// import CourseAPI from '../../Hooks/Course/CourseAPI';
 
 const HomeScreen = () => {
   const navigation = useNavigation();
 
-  let cardTitle = 'พัฒนาโมไบล์ด้วย Flutter 3.3.1 (Building 15 Projects)';
-  let cardSubtitle = 'โดย ' + 'จักริน นิลพันธ์';
+  const [data, setData] = useState([]);
+  const baseUrl = 'http://192.168.170.131:8000';
+  const getAPI = async () => {
+    try {
+      const url = `${baseUrl}/course/getallcourse`;
+      const response = await axios.get(url);
+      const result = response;
+      // console.log(result.data);
+      setData(result.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const [status, setStatus] = useState('unchecked');
   const [icon, setIcon] = useState('heart-outline');
-
-  const [search, setSearch] = useState('');
 
   const onButtonToggle = value => {
     setStatus(status === 'checked' ? 'unchecked' : 'checked');
@@ -33,8 +44,12 @@ const HomeScreen = () => {
   };
 
   const onChangeSearch = () => {};
-
   const onSearchPress = () => {};
+  const testapipress = () => {};
+
+  useEffect(() => {
+    getAPI();
+  });
 
   return (
     <View
@@ -66,9 +81,12 @@ const HomeScreen = () => {
         </View>
       </View> */}
 
-      <Appbar.Header elevated={false} style={{borderBottomWidth: 0.5, borderBottomColor: '#8e8e8e'}}>
+      <Appbar.Header
+        elevated={false}
+        style={{borderBottomWidth: 0.5, borderBottomColor: '#8e8e8e'}}>
         <Appbar.Content title="แนะนำหลักสูตร" />
         <Appbar.Action icon="magnify" onPress={onSearchPress} />
+        <Appbar.Action icon="dots-vertical" onPress={() => {}} />
       </Appbar.Header>
 
       <ScrollView
@@ -97,74 +115,44 @@ const HomeScreen = () => {
         </View> */}
 
         {/* Card */}
-        <Card style={styles.card} onPress={onCardPress}>
-          <Card.Cover
-            style={styles.card_cover}
-            source={{uri: 'https://picsum.photos/700'}}
-          />
-          <Card.Title title={cardTitle} subtitle={cardSubtitle} />
-          <View style={styles.container}>
-            <Card.Content style={styles.content}>
-              <Rating imageSize={12} startingValue={5} readonly />
-              <Text style={[styles.text, {marginTop: 5}]} variant="bodyMedium">
-                1,500 THB
-              </Text>
-            </Card.Content>
-            {/* Heart Icon */}
-            <ToggleButton
-              style={{marginRight: 10}}
-              icon={icon}
-              status={status}
-              onPress={onButtonToggle}
-            />
-          </View>
-        </Card>
+        {data.map((item, index) => {
+          if (item.approval == true) {
+            return (
+              <React.Fragment key={index}>
+                {/* {console.log(item.title)}
+              <Text style={{color: 'black'}}>{item.title}</Text> */}
 
-        <Card style={styles.card} onPress={onCardPress}>
-          <Card.Cover
-            style={styles.card_cover}
-            source={{uri: 'https://picsum.photos/699'}}
-          />
-          <Card.Title title={cardTitle} subtitle={cardSubtitle} />
-          <View style={styles.container}>
-            <Card.Content style={styles.content}>
-              <Rating imageSize={12} startingValue={5} readonly />
-              <Text style={[styles.text, {marginTop: 5}]} variant="bodyMedium">
-                2,500 THB
-              </Text>
-            </Card.Content>
-            {/* Heart Icon */}
-            <ToggleButton
-              style={{marginRight: 10}}
-              icon={icon}
-              status={status}
-              onPress={onButtonToggle}
-            />
-          </View>
-        </Card>
-
-        <Card style={styles.card} onPress={onCardPress}>
-          <Card.Cover
-            style={styles.card_cover}
-            source={{uri: 'https://picsum.photos/700'}}
-          />
-          <Card.Title title={cardTitle} subtitle={cardSubtitle} />
-          <View style={styles.container}>
-            <Card.Content style={styles.content}>
-              <Rating imageSize={12} startingValue={5} readonly />
-              <Text style={[styles.text, {marginTop: 5}]} variant="bodyMedium">
-                1,200 THB
-              </Text>
-            </Card.Content>
-            {/* Heart Icon */}
-            <ToggleButton
-              style={{marginRight: 10}}
-              icon={icon}
-              status={status}
-              onPress={onButtonToggle}
-            />
-          </View>
-        </Card>
+                <Card style={styles.card} onPress={onCardPress}>
+                  <Card.Cover
+                    style={styles.card_cover}
+                    source={{uri: `${item.image}`}}
+                  />
+                  <Card.Title
+                    title={`${item.title}`}
+                    subtitle={'โดย ' + `${item.create_byName}`}
+                  />
+                  <View style={styles.container}>
+                    <Card.Content style={styles.content}>
+                      <Rating imageSize={12} startingValue={5} readonly />
+                      <Text
+                        style={[styles.text, {marginTop: 5}]}
+                        variant="bodyMedium">
+                        {`${item.pricing}`} THB
+                      </Text>
+                    </Card.Content>
+                    {/* Heart Icon */}
+                    <ToggleButton
+                      style={{marginRight: 10}}
+                      icon={icon}
+                      status={status}
+                      onPress={onButtonToggle}
+                    />
+                  </View>
+                </Card>
+              </React.Fragment>
+            );
+          }
+        })}
       </ScrollView>
     </View>
   );
