@@ -4,7 +4,7 @@ import React, {useState} from 'react';
 import {Card, ToggleButton, Appbar} from 'react-native-paper';
 import {useNavigation} from '@react-navigation/native';
 import {Rating} from 'react-native-ratings';
-
+import {CourseAPI} from './../../Hooks/Course/CourseAPI';
 const QueueScreen = () => {
 
   const navigation = useNavigation();
@@ -16,7 +16,7 @@ const QueueScreen = () => {
     setStatus(status === 'checked' ? 'unchecked' : 'checked');
     setIcon(status === 'checked' ? 'heart-outline' : 'heart');
   };
-
+  const {data} = CourseAPI()
   const onCardPress = () => {
     // navigation.navigate('QuizScreen');
     alert('Queue')

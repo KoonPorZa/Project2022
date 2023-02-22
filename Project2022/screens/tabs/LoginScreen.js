@@ -21,7 +21,7 @@ const LoginScreen = () => {
         password,
       });
       console.log(result.data);
-      navigation.navigate('Home')
+      // navigation.navigate('Home')
     } catch (error) {
       console.log("don't have user")
     }
