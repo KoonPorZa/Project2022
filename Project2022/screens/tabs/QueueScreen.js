@@ -6,8 +6,6 @@ import {useNavigation} from '@react-navigation/native';
 import {Rating} from 'react-native-ratings';
 
 const QueueScreen = () => {
-  let cardTitle = 'พัฒนาโมไบล์ด้วย Flutter 3.3.1 (Building 15 Projects)';
-  let cardSubtitle = 'โดย ' + 'จักริน นิลพันธ์';
 
   const navigation = useNavigation();
 
@@ -63,6 +61,44 @@ const QueueScreen = () => {
             />
           </View>
         </Card>
+        {data.map((item, index) => {
+          if (item.approval == true) {
+            return (
+              <React.Fragment key={index}>
+                {/* {console.log(item.title)}
+              <Text style={{color: 'black'}}>{item.title}</Text> */}
+
+                <Card style={styles.card} onPress={onCardPress}>
+                  <Card.Cover
+                    style={styles.card_cover}
+                    source={{uri: `${item.image}`}}
+                  />
+                  <Card.Title
+                    title={`${item.title}`}
+                    subtitle={'โดย ' + `${item.create_byName}`}
+                  />
+                  <View style={styles.container}>
+                    <Card.Content style={styles.content}>
+                      <Rating imageSize={12} startingValue={5} readonly />
+                      <Text
+                        style={[styles.text, {marginTop: 5}]}
+                        variant="bodyMedium">
+                        กำลังเข้าคิว
+                      </Text>
+                    </Card.Content>
+                    {/* Heart Icon */}
+                    <ToggleButton
+                      style={{marginRight: 10}}
+                      icon={icon}
+                      status={status}
+                      onPress={onButtonToggle}
+                    />
+                  </View>
+                </Card>
+              </React.Fragment>
+            );
+          }
+        })}
       </ScrollView>
     </View>
   );

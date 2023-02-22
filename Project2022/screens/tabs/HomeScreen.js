@@ -12,25 +12,10 @@ import axios from 'axios';
 import {Rating} from 'react-native-ratings';
 
 // Hook
-// import CourseAPI from '../../Hooks/Course/CourseAPI';
+import {CourseAPI} from './../../Hooks/Course/CourseAPI';
 
 const HomeScreen = () => {
   const navigation = useNavigation();
-
-  const [data, setData] = useState([]);
-  const baseUrl = 'http://192.168.170.131:8000';
-  const getAPI = async () => {
-    try {
-      const url = `${baseUrl}/course/getallcourse`;
-      const response = await axios.get(url);
-      const result = response;
-      // console.log(result.data);
-      setData(result.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   const [status, setStatus] = useState('unchecked');
   const [icon, setIcon] = useState('heart-outline');
 
@@ -43,13 +28,10 @@ const HomeScreen = () => {
     navigation.navigate('DetailCourse');
   };
 
+  const {data} = CourseAPI()
+
   const onChangeSearch = () => {};
   const onSearchPress = () => {};
-  const testapipress = () => {};
-
-  useEffect(() => {
-    getAPI();
-  });
 
   return (
     <View
@@ -86,7 +68,7 @@ const HomeScreen = () => {
         style={{borderBottomWidth: 0.5, borderBottomColor: '#8e8e8e'}}>
         <Appbar.Content title="แนะนำหลักสูตร" />
         <Appbar.Action icon="magnify" onPress={onSearchPress} />
-        <Appbar.Action icon="dots-vertical" onPress={() => {}} />
+        <Appbar.Action icon="dots-vertical" onPress={()=>{}} />
       </Appbar.Header>
 
       <ScrollView

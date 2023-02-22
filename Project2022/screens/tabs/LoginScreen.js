@@ -1,6 +1,6 @@
 import {StyleSheet, Text, View} from 'react-native';
 import React, {useState} from 'react';
-
+import axios from 'axios';
 import {useNavigation} from '@react-navigation/native';
 import {TextInput, Button, Appbar} from 'react-native-paper';
 
@@ -10,8 +10,21 @@ const LoginScreen = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const onLoginPress = () => {
-    alert('onLoginPress');
+  const onLoginPress = async () => {
+    // alert('onLoginPress');
+
+    try {
+      axios.defaults.withCredentials = true;
+      const baseUrl = 'http://192.168.133.173:8000';
+      const result = await axios.post(`${baseUrl}/auth/signin`, {
+        email,
+        password,
+      });
+      console.log(result.data);
+      navigation.navigate('Home')
+    } catch (error) {
+      console.log("don't have user")
+    }
   };
 
   const onForgotPasswordPress = () => {

@@ -18,8 +18,6 @@ import QuizScreen from './screens/QuizScreen';
 import Quiz from './screens/Quiz';
 import ForgotPasswordScreen from './screens/ForgotPasswordScreen';
 
-import testapi from './Hooks/User/testapi';
-
 const Stack = createNativeStackNavigator();
 
 const App = () => {
@@ -34,6 +32,11 @@ const App = () => {
         <Stack.Screen
           name="Main"
           component={MainScreen}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="Home"
+          component={HomeScreen}
           options={{headerShown: false}}
         />
         <Stack.Screen
