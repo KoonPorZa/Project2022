@@ -19,6 +19,7 @@ const InformationScreen = () => {
   const navigation = useNavigation();
 
   const [profile, setProfile] = useState('');
+  const [idcardnum, setIdCardNum] = useState('');
   const [firstname, setFirstName] = useState('');
   const [lastname, setLastName] = useState('');
   const [career, setCareer] = useState('');
@@ -32,7 +33,11 @@ const InformationScreen = () => {
   const [status, setStatus] = useState('');
 
   const countries = ['Egypt', 'Canada', 'Australia', 'Ireland'];
-  const inputStatus = ['บุคคลทั่วไป', 'นักศึกษา (มทร.ธัญบุรี)', 'ศิษย์เก่า (มทร.ธัญบุรี)'];
+  const inputStatus = [
+    'บุคคลทั่วไป',
+    'นักศึกษา (มทร.ธัญบุรี)',
+    'ศิษย์เก่า (มทร.ธัญบุรี)',
+  ];
 
   const onSignUpPress = () => {
     alert('onSignUpPress');
@@ -115,28 +120,34 @@ const InformationScreen = () => {
       {/* Input Form */}
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.form}>
-            <Avatar.Image
-              size={120}
-              source={{uri: 'https://picsum.photos/500'}}
-            />
-            <View style={{width: 260, flexDirection: 'row', justifyContent: 'space-between', marginVertical: 10}}>
-              <Button
-                icon="camera"
-                mode="outlined"
-                textColor="#9382FF"
-                style={{borderColor: '#8e8e8e', width: 120}}
-                onPress={() => {}}>
-                Camera
-              </Button>
-              <Button
-                icon="upload"
-                mode="outlined"
-                textColor="#9382FF"
-                style={{borderColor: '#8e8e8e', width: 120}}
-                onPress={() => {}}>
-                Upload
-              </Button>
-              </View>
+          <Avatar.Image
+            size={120}
+            source={{uri: 'https://picsum.photos/500'}}
+          />
+          <View
+            style={{
+              width: 260,
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              marginVertical: 10,
+            }}>
+            <Button
+              icon="camera"
+              mode="outlined"
+              textColor="#9382FF"
+              style={{borderColor: '#8e8e8e', width: 120}}
+              onPress={() => {}}>
+              Camera
+            </Button>
+            <Button
+              icon="upload"
+              mode="outlined"
+              textColor="#9382FF"
+              style={{borderColor: '#8e8e8e', width: 120}}
+              onPress={() => {}}>
+              Upload
+            </Button>
+          </View>
 
           {/* <Image
             source={imageUri}
@@ -173,6 +184,16 @@ const InformationScreen = () => {
             onPress={onGallaryPress}>
             Gallary
           </Button> */}
+
+          <TextInput
+            style={styles.input}
+            label={'เลขบัตรประชาชน'}
+            value={idcardnum}
+            onChangeText={setIdCardNum}
+            mode="outlined"
+            activeOutlineColor="#5C51A4"
+            outlineStyle={{borderRadius: 15}}
+          />
 
           <TextInput
             style={styles.input}

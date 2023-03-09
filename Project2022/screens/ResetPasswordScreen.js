@@ -4,36 +4,17 @@ import axios from 'axios';
 import {useNavigation} from '@react-navigation/native';
 import {TextInput, Button, Appbar} from 'react-native-paper';
 
-const LoginScreen = () => {
+const ResetPasswordScreen = () => {
+  const [oldpassword, setOldPassword] = useState('');
+  const [newpassword, setNewPassword] = useState('');
+  const [repeatpassword, setRepeatPassword] = useState('');
   const navigation = useNavigation();
-
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-
-  const onLoginPress = async () => {
-    // alert('onLoginPress');
-
-    try {
-      axios.defaults.withCredentials = true;
-      const baseUrl = 'http://192.168.137.135:8000';
-      const result = await axios.post(`${baseUrl}/auth/signin`, {
-        email,
-        password,
-      });
-      console.log(result.data);
-      // navigation.navigate('Home')
-    } catch (error) {
-      console.log("don't have user")
+    const onSubmitPress = () => {
+        alert('Submit')
     }
-  };
-
-  const onForgotPasswordPress = () => {
-    navigation.navigate('ForgotPassword');
-  };
-
-  const onSignUpPress = () => {
-    navigation.navigate('SignUp');
-  };
+    const onBackPress = () => {
+        navigation.navigate('Main');
+      };
 
   return (
     <View
@@ -46,25 +27,35 @@ const LoginScreen = () => {
       <Appbar.Header
         elevated={false}
         style={{borderBottomWidth: 0.5, borderBottomColor: '#8e8e8e'}}>
-        <Appbar.Content title="เข้าสู่ระบบ" style={{alignItems: 'center'}} />
+            <Appbar.BackAction onPress={onBackPress} />
+        <Appbar.Content title="เปลี่ยนรหัสผ่าน" style={{alignItems: 'flex-start'}} />
       </Appbar.Header>
 
       {/* Input Form */}
       <View style={styles.form}>
         <TextInput
           style={styles.input}
-          label={'Email'}
-          value={email}
-          onChangeText={setEmail}
+          label={'รหัสผ่านปัจจุบัน'}
+          value={oldpassword}
+          onChangeText={setOldPassword}
           mode="outlined"
           activeOutlineColor="#5C51A4"
           outlineStyle={{borderRadius: 15}}
         />
         <TextInput
           style={styles.input}
-          label={'Password'}
-          value={password}
-          onChangeText={setPassword}
+          label={'รหัสผ่านใหม่'}
+          value={newpassword}
+          onChangeText={setNewPassword}
+          mode="outlined"
+          activeOutlineColor="#5C51A4"
+          outlineStyle={{borderRadius: 15}}
+        />
+        <TextInput
+          style={styles.input}
+          label={'ยืนยันรหัสผ่าน'}
+          value={repeatpassword}
+          onChangeText={setRepeatPassword}
           mode="outlined"
           activeOutlineColor="#5C51A4"
           outlineStyle={{borderRadius: 15}}
@@ -73,21 +64,15 @@ const LoginScreen = () => {
           style={styles.btn}
           mode="contained"
           buttonColor="#5C51A4"
-          onPress={onLoginPress}>
-          เข้าสู่ระบบ
+          onPress={onSubmitPress}>
+          ตกลง
         </Button>
-        <Text style={styles.text} onPress={onForgotPasswordPress}>
-          ฉันลืมรหัสผ่าน
-        </Text>
-        <Text style={styles.text} onPress={onSignUpPress}>
-          สร้างบัญชีของฉัน
-        </Text>
       </View>
     </View>
   );
 };
 
-export default LoginScreen;
+export default ResetPasswordScreen;
 
 const styles = StyleSheet.create({
   form: {

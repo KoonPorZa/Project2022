@@ -5,6 +5,9 @@ import {Card, ToggleButton, Appbar} from 'react-native-paper';
 
 import {Rating} from 'react-native-ratings';
 
+// Hook
+import {CourseAPI} from './../../Hooks/Course/CourseAPI';
+
 const FavoriteScreen = () => {
   let cardTitle = 'พัฒนาโมไบล์ด้วย Flutter 3.3.1 (Building 15 Projects)';
   let cardSubtitle = 'โดย ' + 'จักริน นิลพันธ์';
@@ -20,6 +23,8 @@ const FavoriteScreen = () => {
   const onCardPress = () => {
     navigation.navigate('DetailCourse')
   };
+
+  const {data} = CourseAPI();
 
   return (
     <View
@@ -80,51 +85,45 @@ const FavoriteScreen = () => {
           </View>
         </Card>
 
-        <Card style={styles.card} onPress={onCardPress}>
-          <Card.Cover
-            style={styles.card_cover}
-            source={{uri: 'https://picsum.photos/699'}}
-          />
-          <Card.Title title={cardTitle} subtitle={cardSubtitle} />
-          <View style={styles.container}>
-            <Card.Content style={styles.content}>
-              <Rating imageSize={12} startingValue={5} readonly />
-              <Text style={[styles.text, {marginTop: 5}]} variant="bodyMedium">
-                2,500 THB
-              </Text>
-            </Card.Content>
-            {/* Heart Icon */}
-            <ToggleButton
-              style={{marginRight: 10}}
-              icon={icon}
-              status={status}
-              onPress={onButtonToggle}
-            />
-          </View>
-        </Card>
+        {data.map((item, index) => {
+          if (item.approval == true) {
+            console.log('Home Fetch')
+            return (
+              <React.Fragment key={index}>
+                {/* {console.log(item.title)}
+              <Text style={{color: 'black'}}>{item.title}</Text> */}
 
-        <Card style={styles.card} onPress={onCardPress}>
-          <Card.Cover
-            style={styles.card_cover}
-            source={{uri: 'https://picsum.photos/700'}}
-          />
-          <Card.Title title={cardTitle} subtitle={cardSubtitle} />
-          <View style={styles.container}>
-            <Card.Content style={styles.content}>
-              <Rating imageSize={12} startingValue={5} readonly />
-              <Text style={[styles.text, {marginTop: 5}]} variant="bodyMedium">
-                1,200 THB
-              </Text>
-            </Card.Content>
-            {/* Heart Icon */}
-            <ToggleButton
-              style={{marginRight: 10}}
-              icon={icon}
-              status={status}
-              onPress={onButtonToggle}
-            />
-          </View>
-        </Card>
+                <Card style={styles.card} onPress={onCardPress}>
+                  <Card.Cover
+                    style={styles.card_cover}
+                    source={{uri: `${item.image}`}}
+                  />
+                  <Card.Title
+                    title={`${item.title}`}
+                    subtitle={'โดย ' + `${item.create_byName}`}
+                  />
+                  <View style={styles.container}>
+                    <Card.Content style={styles.content}>
+                      <Rating imageSize={12} startingValue={5} readonly />
+                      <Text
+                        style={[styles.text, {marginTop: 5}]}
+                        variant="bodyMedium">
+                        {`${item.pricing}`} THB
+                      </Text>
+                    </Card.Content>
+                    {/* Heart Icon */}
+                    <ToggleButton
+                      style={{marginRight: 10}}
+                      icon={icon}
+                      status={status}
+                      onPress={onButtonToggle}
+                    />
+                  </View>
+                </Card>
+              </React.Fragment>
+            );
+          }
+        })}
       </ScrollView>
     </View>
   );

@@ -5,6 +5,9 @@ import {Card, ToggleButton, Appbar} from 'react-native-paper';
 import {useNavigation} from '@react-navigation/native';
 import {Rating} from 'react-native-ratings';
 
+// Hook
+import {CourseAPI} from './../../Hooks/Course/CourseAPI';
+
 const MyCourseScreen = () => {
   let cardTitle = 'พัฒนาโมไบล์ด้วย Flutter 3.3.1 (Building 15 Projects)';
   let cardSubtitle = 'โดย ' + 'จักริน นิลพันธ์';
@@ -22,6 +25,8 @@ const MyCourseScreen = () => {
   const onCardPress = () => {
     navigation.navigate('QuizScreen');
   };
+
+  const {data} = CourseAPI();
 
   return (
     <View
@@ -52,7 +57,7 @@ const MyCourseScreen = () => {
             <Card.Content style={styles.content}>
               <Rating imageSize={12} startingValue={5} readonly />
               <Text style={[styles.text, {marginTop: 5}]} variant="bodyMedium">
-                Paid
+                ชำระเงินแล้ว
               </Text>
             </Card.Content>
             {/* Heart Icon */}
@@ -64,6 +69,45 @@ const MyCourseScreen = () => {
             />
           </View>
         </Card>
+        {data.map((item, index) => {
+          if (item.approval == true) {
+            console.log('Home Fetch');
+            return (
+              <React.Fragment key={index}>
+                {/* {console.log(item.title)}
+              <Text style={{color: 'black'}}>{item.title}</Text> */}
+
+                <Card style={styles.card} onPress={onCardPress}>
+                  <Card.Cover
+                    style={styles.card_cover}
+                    source={{uri: `${item.image}`}}
+                  />
+                  <Card.Title
+                    title={`${item.title}`}
+                    subtitle={'โดย ' + `${item.create_byName}`}
+                  />
+                  <View style={styles.container}>
+                    <Card.Content style={styles.content}>
+                      <Rating imageSize={12} startingValue={5} readonly />
+                      <Text
+                        style={[styles.text, {marginTop: 5}]}
+                        variant="bodyMedium">
+                        ชำระเงินแล้ว
+                      </Text>
+                    </Card.Content>
+                    {/* Heart Icon */}
+                    <ToggleButton
+                      style={{marginRight: 10}}
+                      icon={icon}
+                      status={status}
+                      onPress={onButtonToggle}
+                    />
+                  </View>
+                </Card>
+              </React.Fragment>
+            );
+          }
+        })}
       </ScrollView>
     </View>
   );

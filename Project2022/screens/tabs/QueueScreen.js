@@ -44,7 +44,7 @@ const QueueScreen = () => {
             style={styles.card_cover}
             source={{uri: 'https://picsum.photos/710'}}
           />
-          <Card.Title title={cardTitle} subtitle={cardSubtitle} />
+          <Card.Title title={"cardTitle"} subtitle={"cardSubtitle"} />
           <View style={styles.container}>
             <Card.Content style={styles.content}>
               <Rating imageSize={12} startingValue={5} readonly />
@@ -63,6 +63,7 @@ const QueueScreen = () => {
         </Card>
         {data.map((item, index) => {
           if (item.approval == true) {
+            console.log('Queue Fetch')
             return (
               <React.Fragment key={index}>
                 {/* {console.log(item.title)}

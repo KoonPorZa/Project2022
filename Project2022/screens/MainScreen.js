@@ -7,18 +7,20 @@ import MyCourseScreen from './tabs/MyCourseScreen';
 import FavoriteScreen from './tabs/FavoriteScreen';
 import LoginScreen from './tabs/LoginScreen';
 import QueueScreen from './tabs/QueueScreen';
+import AboutUserScreen from './tabs/AboutUserScreen';
 
 const Home = () => <HomeScreen />;
 const Queue = () => <QueueScreen />;
 const MyCourse = () => <MyCourseScreen />;
 const Favorite = () => <FavoriteScreen />;
 const Login = () => <LoginScreen />;
+const AboutUser = () => <AboutUserScreen />
 
 const MainScreen = () => {
   const [index, setIndex] = React.useState(0);
   const [routes] = React.useState([
     { key: 'home', title: 'แนะนำ', focusedIcon: 'home', unfocusedIcon: 'home-outline'},
-    { key: 'queue', title: 'เข้าคิว', focusedIcon: 'cart-outline' },
+    { key: 'queue', title: 'เข้าคิว', focusedIcon: 'human-queue' },
     { key: 'mycourse', title: 'หลักสูตรของฉัน', focusedIcon: 'bookshelf' },
     { key: 'favorite', title: 'ถูกใจ', focusedIcon: 'heart', unfocusedIcon: 'heart-outline' },
     { key: 'login', title: 'บัญชี', focusedIcon: 'account-circle', unfocusedIcon: 'account-circle-outline' },
@@ -30,6 +32,7 @@ const MainScreen = () => {
     mycourse: MyCourse,
     favorite: Favorite,
     login: Login,
+    // login: AboutUser,
   });
 
   return (

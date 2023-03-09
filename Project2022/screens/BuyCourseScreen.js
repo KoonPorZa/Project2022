@@ -56,6 +56,9 @@ const BuyCourseScreen = () => {
             <Text style={{fontWeight: 'bold'}}>นาย จักริน นิลพันธ์</Text>
           </View>
         </View>
+
+        <View style={{alignItems: 'center'}}>
+
         <View style={{flexDirection: 'row'}}>
           <View style={styles.left_box}>
             <Text style={styles.txt}>ชื่อหลักสูตร</Text>
@@ -171,13 +174,16 @@ const BuyCourseScreen = () => {
             />
           </View>
         </View>
-        <Button
+        
+          <Button
           style={styles.btn}
           mode="contained"
           buttonColor="#5C51A4"
           onPress={onSubmitPress}>
           เสร็จสิ้น
         </Button>
+        </View>
+        
       </ScrollView>
     </View>
   );
@@ -196,15 +202,13 @@ const styles = StyleSheet.create({
   },
   left_box: {
     flexDirection: 'column',
-    backgroundColor: 'white',
     justifyContent: 'flex-start',
     alignItems: 'flex-end',
-    width: '35%',
+    width: '33%',
     paddingVertical: 5,
   },
   right_box: {
     flexDirection: 'column',
-    backgroundColor: 'white',
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
     width: '60%',

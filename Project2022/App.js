@@ -17,6 +17,9 @@ import QueueScreen from './screens/tabs/QueueScreen';
 import QuizScreen from './screens/QuizScreen';
 import Quiz from './screens/Quiz';
 import ForgotPasswordScreen from './screens/ForgotPasswordScreen';
+import CategoryScreen from './screens/CategoryScreen';
+import ResetPasswordScreen from './screens/ResetPasswordScreen';
+
 
 const Stack = createNativeStackNavigator();
 
@@ -72,6 +75,16 @@ const App = () => {
         <Stack.Screen
           name="ForgotPassword"
           component={ForgotPasswordScreen}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="Category"
+          component={CategoryScreen}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="ResetPassword"
+          component={ResetPasswordScreen}
           options={{headerShown: false}}
         />
       </Stack.Navigator>

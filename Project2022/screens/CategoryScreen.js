@@ -12,9 +12,9 @@ import axios from 'axios';
 import {Rating} from 'react-native-ratings';
 
 // Hook
-import {CourseAPI} from './../../Hooks/Course/CourseAPI';
+import {CategoryAPI} from './../Hooks/Category/CategoryAPI';
 
-const HomeScreen = () => {
+const CategoryScreen = () => {
   const navigation = useNavigation();
   const [status, setStatus] = useState('unchecked');
   const [icon, setIcon] = useState('heart-outline');
@@ -25,15 +25,19 @@ const HomeScreen = () => {
   };
 
   const onCardPress = () => {
-    navigation.navigate('DetailCourse');
+    // navigation.navigate('DetailCourse');
+    alert('Card Press');
+  };
+  const onBackPress = () => {
+    navigation.navigate('Main');
   };
 
-  const {data} = CourseAPI();
+  const {data} = CategoryAPI();
 
   const onChangeSearch = () => {};
   const onSearchPress = () => {};
   const onDotsVerticalPress = () => {
-    navigation.navigate('Category')
+    alert('หมวดหมู่');
   };
 
   return (
@@ -69,9 +73,9 @@ const HomeScreen = () => {
       <Appbar.Header
         elevated={false}
         style={{borderBottomWidth: 0.5, borderBottomColor: '#8e8e8e'}}>
-        <Appbar.Content title="แนะนำหลักสูตร" />
+        <Appbar.BackAction onPress={onBackPress} />
+        <Appbar.Content title="หมวดหมู่" />
         <Appbar.Action icon="magnify" onPress={onSearchPress} />
-        <Appbar.Action icon="menu" onPress={onDotsVerticalPress} />
       </Appbar.Header>
 
       <ScrollView
@@ -100,68 +104,31 @@ const HomeScreen = () => {
         </View> */}
 
         {/* Card */}
+
         {data.map((item, index) => {
-          if (item.approval == true) {
-            console.log('Home Fetch')
-            return (
-              <React.Fragment key={index}>
-                {/* {console.log(item.title)}
+          console.log('Category Fetch');
+          return (
+            <React.Fragment key={index}>
+              {/* {console.log(item.title)}
               <Text style={{color: 'black'}}>{item.title}</Text> */}
 
-                <Card style={styles.card} onPress={onCardPress}>
-                  <Card.Cover
-                    style={styles.card_cover}
-                    source={{uri: `${item.image}`}}
-                  />
-                  <Card.Title
-                    title={`${item.title}`}
-                    subtitle={'โดย ' + `${item.create_byName}`}
-                  />
-                  <View style={styles.container}>
-                    <Card.Content style={styles.content}>
-                      <Rating imageSize={12} startingValue={5} readonly />
-                      <Text
-                        style={[styles.text, {marginTop: 5}]}
-                        variant="bodyMedium">
-                        {`${item.pricing}`} THB
-                      </Text>
-                    </Card.Content>
-                    {/* Heart Icon */}
-                    <ToggleButton
-                      style={{marginRight: 10}}
-                      icon={icon}
-                      status={status}
-                      onPress={onButtonToggle}
-                    />
-                  </View>
-                </Card>
-              </React.Fragment>
-            );
-          }
+              <Card style={styles.card} onPress={onCardPress}>
+                <Card.Title title={`${item.Category_Title}`} />
+              </Card>
+            </React.Fragment>
+          );
         })}
       </ScrollView>
     </View>
   );
 };
 
-export default HomeScreen;
+export default CategoryScreen;
 
 const styles = StyleSheet.create({
   card: {
     marginVertical: 5,
     marginHorizontal: 5,
     backgroundColor: '#fff',
-  },
-  text: {
-    color: '#000',
-  },
-  content: {
-    alignItems: 'flex-start',
-  },
-  container: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginBottom: 10,
   },
 });

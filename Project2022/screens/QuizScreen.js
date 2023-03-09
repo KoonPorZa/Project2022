@@ -38,7 +38,8 @@ const QuizScreen = () => {
 
   // Call Function onPress
   const onButtonPress = () => {
-    navigation.navigate('Quiz')
+    // navigation.navigate('Quiz')
+    alert('เช็คชื่อ')
   };
 
   const onBackPress = () => {
@@ -139,7 +140,7 @@ const QuizScreen = () => {
         /> */}
       </ScrollView>
       <Appbar style={styles.bottom}>
-        <Text
+        {/* <Text
           style={{
             marginLeft: 10,
             fontSize: 20,
@@ -147,7 +148,7 @@ const QuizScreen = () => {
             color: 'black',
           }}>
           คะแนนที่ได้ 10/10
-        </Text>
+        </Text> */}
         <View style={{flexDirection: 'row', alignItems: 'center'}}>
           <Button
             mode="contained"
@@ -155,7 +156,7 @@ const QuizScreen = () => {
             style={styles.btn}
             onPress={onButtonPress}
             labelStyle={styles.txtbtn}>
-            แบบทดสอบ
+            เช็คชื่อ
           </Button>
         </View>
       </Appbar>
@@ -193,7 +194,7 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     bottom: 0,
-    justifyContent: 'space-between',
+    justifyContent: 'center',
   },
   btn: {
     borderRadius: 5,
