@@ -10,15 +10,25 @@ import {
   Divider,
   IconButton,
 } from 'react-native-paper';
+import {GetToken} from '../../Hooks/GetToken'
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const AboutUserScreen = () => {
   const navigation = useNavigation();
-
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-
+const {token} = GetToken()
   const onResetPasswordPress = () => {
-    navigation.navigate('ResetPassword')
+    navigation.navigate('ResetPassword');
+  };
+  const onSignOutPress = async () => {
+    
+    try {
+      if (token !== null) {
+        await AsyncStorage.removeItem('AccessToken');
+        navigation.navigate('Main')
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -52,7 +62,11 @@ const AboutUserScreen = () => {
           </View>
           <View style={styles.btn}>
             <Text style={styles.text}>เปลี่ยนรหัสผ่าน</Text>
-            <IconButton icon="chevron-right" onPress={onResetPasswordPress}/>
+            <IconButton icon="chevron-right" onPress={onResetPasswordPress} />
+          </View>
+          <View style={styles.btn}>
+            <Text style={styles.text}>Log Out</Text>
+            <IconButton icon="chevron-right" onPress={onSignOutPress} />
           </View>
         </View>
       </ScrollView>

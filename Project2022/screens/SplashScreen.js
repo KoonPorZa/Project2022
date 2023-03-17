@@ -1,15 +1,16 @@
 import { StyleSheet, Text, View, Image } from 'react-native'
 import React, { useEffect } from 'react'
 import { useNavigation } from '@react-navigation/native'
+import { GetToken } from '../Hooks/GetToken'
 
 const SplashScreen = () => {
 
     const navigation = useNavigation()
-
+    const {token} = GetToken()
     useEffect(() => {
         setTimeout(() => {
-            navigation.navigate('Main')
-        }, 2000)
+            token == null ? navigation.replace('Main') : navigation.replace('Main2')
+        }, 1000)
     })
 
     return (

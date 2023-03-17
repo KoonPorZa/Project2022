@@ -4,10 +4,11 @@ import {Title, ToggleButton, Appbar, Button, Avatar} from 'react-native-paper';
 import {useNavigation} from '@react-navigation/native';
 import {Rating} from 'react-native-ratings';
 import DatePicker from 'react-native-date-picker';
+import { GetToken } from '../Hooks/GetToken';
 
 const QuizScreen = () => {
   const [queue, setQueue] = useState(0);
-
+  const {token} = GetToken()
   const navigation = useNavigation();
 
   // Toggle Button
@@ -43,7 +44,7 @@ const QuizScreen = () => {
   };
 
   const onBackPress = () => {
-    navigation.navigate('Main');
+    token == null ? navigation.replace('Main') : navigation.replace('Main2')
   };
 
   return (

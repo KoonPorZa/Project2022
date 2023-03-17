@@ -6,15 +6,15 @@ import HomeScreen from './tabs/HomeScreen';
 import MyCourseScreen from './tabs/MyCourseScreen';
 import FavoriteScreen from './tabs/FavoriteScreen';
 import QueueScreen from './tabs/QueueScreen';
-import LoginScreen from './tabs/LoginScreen';
+import AboutUserScreen from './tabs/AboutUserScreen';
 
 const Home = () => <HomeScreen />;
 const Queue = () => <QueueScreen />;
 const MyCourse = () => <MyCourseScreen />;
 const Favorite = () => <FavoriteScreen />;
-const Login = () => <LoginScreen />;
+const AboutUser = () => <AboutUserScreen />;
 
-const MainScreen = () => {
+const MainScreen2 = () => {
   const [index, setIndex] = useState(0);
   const [routes] = useState([
     {
@@ -44,7 +44,7 @@ const MainScreen = () => {
     queue: Queue,
     mycourse: MyCourse,
     favorite: Favorite,
-    page: Login
+    page: AboutUser
   });
 
   return (
@@ -58,4 +58,4 @@ const MainScreen = () => {
   );
 };
 
-export default MainScreen;
+export default MainScreen2;

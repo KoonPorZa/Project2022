@@ -1,8 +1,16 @@
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, View, ScrollView} from 'react-native';
 import React, {useState} from 'react';
 import axios from 'axios';
 import {useNavigation} from '@react-navigation/native';
-import {TextInput, Button, Appbar} from 'react-native-paper';
+import {
+  TextInput,
+  Button,
+  Appbar,
+  Avatar,
+  IconButton,
+} from 'react-native-paper';
+import AboutUserScreen from './AboutUserScreen';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const LoginScreen = () => {
   const navigation = useNavigation();
@@ -11,19 +19,23 @@ const LoginScreen = () => {
   const [password, setPassword] = useState('');
 
   const onLoginPress = async () => {
-    // alert('onLoginPress');
-
     try {
       axios.defaults.withCredentials = true;
-      const baseUrl = 'http://192.168.137.135:8000';
-      const result = await axios.post(`${baseUrl}/auth/signin`, {
+      const baseUrl = 'http://192.168.152.249:8000';
+      const result = await axios.post(`${baseUrl}/auth/signinmobile`, {
         email,
         password,
       });
-      console.log(result.data);
-      // navigation.navigate('Home')
+      const token = result.data.data.token;
+      console.log(token)
+      if(token) {
+        await AsyncStorage.setItem('AccessToken', token);
+      }
+      console.log('Login Complete');
+      navigation.replace('Main2');
     } catch (error) {
-      console.log("don't have user")
+      console.log("don't have user");
+      alert("don't have user");
     }
   };
 
@@ -68,20 +80,25 @@ const LoginScreen = () => {
           mode="outlined"
           activeOutlineColor="#5C51A4"
           outlineStyle={{borderRadius: 15}}
+          secureTextEntry
         />
         <Button
-          style={styles.btn}
+          style={styles.btn_login}
           mode="contained"
           buttonColor="#5C51A4"
-          onPress={onLoginPress}>
+          onPress={() => onLoginPress()}>
           เข้าสู่ระบบ
         </Button>
-        <Text style={styles.text} onPress={onForgotPasswordPress}>
-          ฉันลืมรหัสผ่าน
-        </Text>
-        <Text style={styles.text} onPress={onSignUpPress}>
-          สร้างบัญชีของฉัน
-        </Text>
+        <View style={{marginTop: 15}}>
+          <Text style={styles.text} onPress={onForgotPasswordPress}>
+            ฉันลืมรหัสผ่าน
+          </Text>
+        </View>
+        <View style={{marginTop: 15}}>
+          <Text style={styles.text} onPress={onSignUpPress}>
+            สร้างบัญชีของฉัน
+          </Text>
+        </View>
       </View>
     </View>
   );
@@ -99,12 +116,32 @@ const styles = StyleSheet.create({
     width: '85%',
     marginBottom: 10,
   },
-  btn: {
+  btn_login: {
     width: 150,
     marginTop: 10,
   },
   text: {
     color: '#000',
-    marginTop: 15,
+  },
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingVertical: 20,
+  },
+  text: {
+    color: 'black',
+  },
+  email: {
+    padding: 15,
+    alignItems: 'center',
+  },
+  menu: {
+    marginLeft: 20,
+    alignItems: 'flex-start',
+  },
+  btn: {
+    flexDirection: 'row',
+    alignItems: 'center',
   },
 });

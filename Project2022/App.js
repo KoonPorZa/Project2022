@@ -8,8 +8,9 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 // Screens
 import SplashScreen from './screens/SplashScreen';
 import MainScreen from './screens/MainScreen';
+import MainScreen2 from './screens/MainScreen2';
 import HomeScreen from './screens/tabs/HomeScreen';
-import SignUpScreen from './screens/SignUpScreen';
+import SignUp from './screens/SignUp';
 import InformationScreen from './screens/InformationScreen';
 import DetailCourseScreen from './screens/DetailCourseScreen';
 import BuyCourseScreen from './screens/BuyCourseScreen';
@@ -19,6 +20,7 @@ import Quiz from './screens/Quiz';
 import ForgotPasswordScreen from './screens/ForgotPasswordScreen';
 import CategoryScreen from './screens/CategoryScreen';
 import ResetPasswordScreen from './screens/ResetPasswordScreen';
+import AboutUserScreen from './screens/tabs/AboutUserScreen';
 
 
 const Stack = createNativeStackNavigator();
@@ -38,13 +40,18 @@ const App = () => {
           options={{headerShown: false}}
         />
         <Stack.Screen
+          name="Main2"
+          component={MainScreen2}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
           name="Home"
           component={HomeScreen}
           options={{headerShown: false}}
         />
         <Stack.Screen
           name="SignUp"
-          component={SignUpScreen}
+          component={SignUp}
           options={{headerShown: false}}
         />
         <Stack.Screen
@@ -85,6 +92,11 @@ const App = () => {
         <Stack.Screen
           name="ResetPassword"
           component={ResetPasswordScreen}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="AboutUser"
+          component={AboutUserScreen}
           options={{headerShown: false}}
         />
       </Stack.Navigator>

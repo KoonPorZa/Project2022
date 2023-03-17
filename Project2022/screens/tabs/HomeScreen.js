@@ -10,6 +10,7 @@ import {
 import {useNavigation} from '@react-navigation/native';
 import axios from 'axios';
 import {Rating} from 'react-native-ratings';
+import DetailCourseScreen from '../DetailCourseScreen';
 
 // Hook
 import {CourseAPI} from './../../Hooks/Course/CourseAPI';
@@ -24,11 +25,18 @@ const HomeScreen = () => {
     setIcon(status === 'checked' ? 'heart-outline' : 'heart');
   };
 
-  const onCardPress = () => {
-    navigation.navigate('DetailCourse');
+  const onCardPress = (id) => {
+    // navigation.navigate('DetailCourse', {id: id});
+    const detailcourse = data.find((item, index) => item.id_document === id)
+    // console.log(detailcourse)
+    navigation.navigate('DetailCourse', {detail: detailcourse});
   };
 
   const {data} = CourseAPI();
+
+  // const idcourse = data.find((item, index) => {
+  //   item.id_document === 
+  // })
 
   const onChangeSearch = () => {};
   const onSearchPress = () => {};
@@ -105,10 +113,11 @@ const HomeScreen = () => {
             console.log('Home Fetch')
             return (
               <React.Fragment key={index}>
+                {/* {console.log(item.id)} */}
                 {/* {console.log(item.title)}
               <Text style={{color: 'black'}}>{item.title}</Text> */}
 
-                <Card style={styles.card} onPress={onCardPress}>
+                <Card style={styles.card} onPress={() => onCardPress(item.id_document)}>
                   <Card.Cover
                     style={styles.card_cover}
                     source={{uri: `${item.image}`}}

@@ -4,8 +4,13 @@ import {Title, ToggleButton, Appbar, Button, Avatar} from 'react-native-paper';
 import {useNavigation} from '@react-navigation/native';
 import {Rating} from 'react-native-ratings';
 import DatePicker from 'react-native-date-picker';
+import {GetToken} from '../Hooks/GetToken'
+import { CourseAPI } from '../Hooks/Course/CourseAPI';
+import moment from 'moment'
 
-const DetailCourseScreen = () => {
+const DetailCourseScreen = ({route}) => {
+  const {detail} = route.params
+  // console.log(detail.title)
   const [queue, setQueue] = useState(0);
 
   const navigation = useNavigation();
@@ -23,26 +28,35 @@ const DetailCourseScreen = () => {
   const [open, setOpen] = useState(false);
   const [currentDate, setCurrentDate] = useState('');
   const [currentTime, setCurrentTime] = useState('');
-  useEffect(() => {
-    var date = new Date().getDate(); //Current Date
-    var month = new Date().getMonth() + 1; //Current Month
-    var year = new Date().getFullYear(); //Current Year
-    var hours = new Date().getHours(); //Current Hours
-    var min = new Date().getMinutes(); //Current Minutes
-    var sec = new Date().getSeconds(); //Current Seconds
+  // useEffect(() => {
+  //   var date = new Date().getDate(); //Current Date
+  //   var month = new Date().getMonth() + 1; //Current Month
+  //   var year = new Date().getFullYear(); //Current Year
+  //   var hours = new Date().getHours(); //Current Hours
+  //   var min = new Date().getMinutes(); //Current Minutes
+  //   var sec = new Date().getSeconds(); //Current Seconds
 
-    var monthName = month == 1 ? 'มกราคม' : 'กุมภาพันธ์';
-    setCurrentDate(date + ' ' + monthName + ' ' + year + ' ');
-    setCurrentTime(hours + ':00 - ' + (hours + 3) + ':00 น.');
-  }, []);
+  //   var monthName = month == 1 ? 'มกราคม' : 'กุมภาพันธ์';
+  //   setCurrentDate(date + ' ' + monthName + ' ' + year + ' ');
+  //   setCurrentTime(hours + ':00 - ' + (hours + 3) + ':00 น.');
+  // }, []);
+
+  // Hook GetToken
+  const {token} = GetToken()
 
   // Call Function onPress
-  const onButtonPress = () => {
-    navigation.navigate('BuyCourse');
+  const onPaymentPress = () => {
+    // navigation.navigate('BuyCourse');
+    if(token !== null) {
+      console.log(token)
+      navigation.navigate('BuyCourse');
+    } else {
+      alert('Please Login')
+    }
   };
 
   const onBackPress = () => {
-    navigation.navigate('Main');
+    token == null ? navigation.replace('Main') : navigation.replace('Main2')
   };
 
   return (
@@ -61,15 +75,15 @@ const DetailCourseScreen = () => {
       </Appbar.Header>
       <ScrollView showsVerticalScrollIndicator={false}>
         <Image
-          source={{uri: 'https://picsum.photos/700'}}
+          source={{uri: detail.image}}
           style={styles.image}
         />
         <View style={styles.content}>
           <Title style={[styles.text, {fontWeight: 'bold'}]}>
-            พัฒนาโมไบล์ด้วย Flutter 3.3.1 (Building 15 Projects)
+            {detail.title}
           </Title>
           <Text style={styles.text}>
-            ออกแบบและพัฒนา App บน Android, iOS ด้วยการเขียนโค้ดเพียงครั้งเดียว
+            {detail.description}
           </Text>
           <View style={styles.rating}>
             <Text style={{fontSize: 12, marginRight: 3}}>5.0</Text>
@@ -78,13 +92,13 @@ const DetailCourseScreen = () => {
               (200 คะแนน) 200 ผู้เรียน
             </Text>
           </View>
-          <Text style={styles.text}>สร้างโดย จักริน นิลพันธ์</Text>
+          <Text style={styles.text}>สร้างโดย {detail.create_byName}</Text>
           <View style={styles.detail}>
-            <Text style={styles.text}>ลงทะเบียนได้ถึง {currentDate}</Text>
+            <Text style={styles.text}>เริ่มลงทะเบียน {moment(detail.start_register).format('DD MMMM YYYY')} ถึง {moment(detail.end_register).format('DD MMMM YYYY')}</Text>
             <Text style={styles.text}>
-              เริ่มเรียน {currentDate} ถึง {currentDate}
+              เริ่มเรียน {moment(detail.start_learn).format('DD MMMM YYYY')} ถึง {moment(detail.end_learn).format('DD MMMM YYYY')}
             </Text>
-            <Text style={styles.text}>วันที่เรียน พุธ เวลา {currentTime}</Text>
+            <Text style={styles.text}>วันที่เรียน {detail.course_date} เวลา</Text>
             <Text style={styles.text}>จำนวนผู้เข้าคิว {queue}</Text>
             <View style={{marginVertical: 5}} />
             <Text style={[styles.text, {fontWeight: 'bold', fontSize: 20}]}>
@@ -149,21 +163,21 @@ const DetailCourseScreen = () => {
       <Appbar style={styles.bottom}>
         <Text
           style={{
-            marginLeft: 10,
+            marginLeft: 20,
             fontSize: 20,
             fontWeight: 'bold',
             color: 'black',
           }}>
-          ฿ 1,500.00
+          {detail.pricing}  บาท
         </Text>
         <View style={{flexDirection: 'row', alignItems: 'center'}}>
           <Button
             mode="contained"
             buttonColor="#5C51A4"
             style={styles.btn}
-            onPress={onButtonPress}
+            onPress={onPaymentPress}
             labelStyle={styles.txtbtn}>
-            ซื้อเลย
+            จองคิว
           </Button>
           <ToggleButton
             icon={icon}
