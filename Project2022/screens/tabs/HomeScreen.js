@@ -10,38 +10,66 @@ import {
 import {useNavigation} from '@react-navigation/native';
 import axios from 'axios';
 import {Rating} from 'react-native-ratings';
-import DetailCourseScreen from '../DetailCourseScreen';
 
 // Hook
 import {CourseAPI} from './../../Hooks/Course/CourseAPI';
+import {GetFavorite} from './../../Hooks/GetFavorite';
+import {SetFavorite} from '../../Hooks/SetFavorite';
+import {GetToken} from '../../Hooks/GetToken';
+import {GetIdUser} from '../../Hooks/GetIdUser';
+import { useCreateFavorite } from './../../Hooks/useCreateFavorite';
+import {useGetFavCourseAPI} from '../../Hooks/useGetFavCourseAPI'
 
 const HomeScreen = () => {
-  const navigation = useNavigation();
-  const [status, setStatus] = useState('unchecked');
-  const [icon, setIcon] = useState('heart-outline');
+  const {token} = GetToken();
+  const {idUser} = GetIdUser();
+  const {addFavorite} = useCreateFavorite()
+  const {FavoriteList, getFavoriteLists} = useGetFavCourseAPI()
+  const [Favlist, SetFavlist] = useState()
 
-  const onButtonToggle = value => {
-    setStatus(status === 'checked' ? 'unchecked' : 'checked');
-    setIcon(status === 'checked' ? 'heart-outline' : 'heart');
+  useEffect(()=> {
+    SetFavlist(FavoriteList.map((item,index)=> item.id_document))
+  },[FavoriteList])
+
+  const navigation = useNavigation();
+  const {handleSetFavorite, fav, handleGetFavorite} = SetFavorite();
+  const onButtonToggle = id_document => {
+    if (token !== null) {
+      let favorite = [...FavoriteList.map((item, index)=> item.id_document)];
+      console.log('data > ', favorite);
+      if (favorite.some(item => item === id_document)) {
+        favorite = favorite.filter(item => item !== id_document);
+        console.log('del > ', id_document);
+      } else {
+        favorite.push(id_document);
+        console.log('add > ', id_document);
+      }
+      console.log('data 2 >', favorite);
+      addFavorite(favorite, idUser)
+      getFavoriteLists()
+    } else {
+      alert('กรุณาเข้าสู่ระบบ');
+    }
+    
   };
 
-  const onCardPress = (id) => {
-    // navigation.navigate('DetailCourse', {id: id});
-    const detailcourse = data.find((item, index) => item.id_document === id)
-    // console.log(detailcourse)
+  const onCardPress = id => {
+    const detailcourse = data.find((item, index) => item.id_document === id);
     navigation.navigate('DetailCourse', {detail: detailcourse});
   };
 
   const {data} = CourseAPI();
 
-  // const idcourse = data.find((item, index) => {
-  //   item.id_document === 
-  // })
-
   const onChangeSearch = () => {};
-  const onSearchPress = () => {};
+  const onSearchPress = () => {
+    alert('Search');
+  };
   const onDotsVerticalPress = () => {
-    navigation.navigate('Category')
+    navigation.navigate('Category');
+  };
+  const refreshPress = () => {
+    getFavoriteLists()
+    console.log('FavoriteList > ',Favlist)
   };
 
   return (
@@ -51,34 +79,12 @@ const HomeScreen = () => {
         backgroundColor: '#fff',
       }}>
       {/* header */}
-      {/* <View
-        style={{
-          width: '100%',
-          height: 60,
-          borderBottomWidth: 0.3,
-          borderColor: '#5C51A4',
-          justifyContent: 'center',
-          alignItems: 'center',
-          flexDirection: 'row',
-        }}>
-        <Text
-          style={{
-            color: '#000',
-            fontSize: 20,
-            fontWeight: 'bold',
-          }}>
-          หน้าหลัก
-        </Text>
-        <View style={{}}>
-          <IconButton icon="camera" size={20} />
-        </View>
-      </View> */}
-
       <Appbar.Header
         elevated={false}
         style={{borderBottomWidth: 0.5, borderBottomColor: '#8e8e8e'}}>
-        <Appbar.Content title="แนะนำหลักสูตร" />
+        <Appbar.Content title="แนะนำคอร์ส" />
         <Appbar.Action icon="magnify" onPress={onSearchPress} />
+        <Appbar.Action icon="reload" onPress={refreshPress} />
         <Appbar.Action icon="menu" onPress={onDotsVerticalPress} />
       </Appbar.Header>
 
@@ -110,25 +116,32 @@ const HomeScreen = () => {
         {/* Card */}
         {data.map((item, index) => {
           if (item.approval == true) {
-            console.log('Home Fetch')
             return (
               <React.Fragment key={index}>
-                {/* {console.log(item.id)} */}
-                {/* {console.log(item.title)}
-              <Text style={{color: 'black'}}>{item.title}</Text> */}
-
-                <Card style={styles.card} onPress={() => onCardPress(item.id_document)}>
+                <Card
+                  style={styles.card}
+                  onPress={() => onCardPress(item.id_document)}>
                   <Card.Cover
                     style={styles.card_cover}
                     source={{uri: `${item.image}`}}
                   />
+                  <View style={{marginLeft: 15, marginTop: 10, marginBottom: -12}}>
+                    <Text
+                      style={[styles.text, {color: '#9382FF', fontWeight: 'bold'}]}
+                      variant="bodyMedium">
+                      {`${item.course_status?.map((params, index)=> {
+                        return (index !== 0 ? ' '+params.label : params.label)
+                      })}`}
+                    </Text>
+                  </View>
                   <Card.Title
-                    title={`${item.title}`}
+                    // title={`${item.title}`}
+                    title={`${item.id_document}`}
                     subtitle={'โดย ' + `${item.create_byName}`}
                   />
                   <View style={styles.container}>
                     <Card.Content style={styles.content}>
-                      <Rating imageSize={12} startingValue={5} readonly />
+                      {/* <Rating imageSize={12} startingValue={5} readonly /> */}
                       <Text
                         style={[styles.text, {marginTop: 5}]}
                         variant="bodyMedium">
@@ -138,9 +151,13 @@ const HomeScreen = () => {
                     {/* Heart Icon */}
                     <ToggleButton
                       style={{marginRight: 10}}
-                      icon={icon}
-                      status={status}
-                      onPress={onButtonToggle}
+                      icon={
+                        Favlist?.some(icon => icon === item.id_document)
+                          ? 'heart'
+                          : 'heart-outline'
+                      }
+                      status={'unchecked'}
+                      onPress={() => onButtonToggle(item.id_document)}
                     />
                   </View>
                 </Card>

@@ -70,13 +70,13 @@ const CategoryScreen = () => {
         </View>
       </View> */}
 
-      <Appbar.Header
+      {/* <Appbar.Header
         elevated={false}
         style={{borderBottomWidth: 0.5, borderBottomColor: '#8e8e8e'}}>
         <Appbar.BackAction onPress={onBackPress} />
         <Appbar.Content title="หมวดหมู่" />
         <Appbar.Action icon="magnify" onPress={onSearchPress} />
-      </Appbar.Header>
+      </Appbar.Header> */}
 
       <ScrollView
         style={{

@@ -24,7 +24,7 @@ const MainScreen = () => {
       unfocusedIcon: 'home-outline',
     },
     {key: 'queue', title: 'เข้าคิว', focusedIcon: 'human-queue'},
-    {key: 'mycourse', title: 'หลักสูตรของฉัน', focusedIcon: 'bookshelf'},
+    {key: 'mycourse', title: 'คอร์สของฉัน', focusedIcon: 'bookshelf'},
     {
       key: 'favorite',
       title: 'ถูกใจ',
@@ -38,6 +38,8 @@ const MainScreen = () => {
       unfocusedIcon: 'account-circle-outline',
     },
   ]);
+
+  
 
   const renderScene = BottomNavigation.SceneMap({
     home: Home,

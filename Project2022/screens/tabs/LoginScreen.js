@@ -21,21 +21,73 @@ const LoginScreen = () => {
   const onLoginPress = async () => {
     try {
       axios.defaults.withCredentials = true;
-      const baseUrl = 'http://192.168.152.249:8000';
+      const baseUrl = 'http://192.168.152.48:8000';
       const result = await axios.post(`${baseUrl}/auth/signinmobile`, {
         email,
         password,
       });
       const token = result.data.data.token;
-      console.log(token)
-      if(token) {
+      const fav = result.data.data.favorite;
+      const course_join = result.data.user.course_join
+      const userEmail = result.data.data.email
+      const idUser = result.data.data.id_document
+      const detail = result.data.data
+      const passUser = result.data.data.password
+      const saltUser = result.data.data.salt
+      // console.log('result > ',result)
+      if (token) {
         await AsyncStorage.setItem('AccessToken', token);
       }
+      if (userEmail) {
+        await AsyncStorage.setItem('userEmail', userEmail);
+      }
+      if (idUser) {
+        await AsyncStorage.setItem('idUser', idUser);
+      }
+      if (passUser) {
+        await AsyncStorage.setItem('passUser', passUser);
+      }
+      if (saltUser) {
+        await AsyncStorage.setItem('saltUser', saltUser);
+      }
+      if (fav) {
+        await AsyncStorage.setItem('userFavorite', JSON.stringify(fav), (error) => {
+          if(error) {
+            console.log("an error")
+            throw error
+          }
+          console.log("success")
+        }).catch((error) => {
+          console.log("error is : ",error)
+        })
+      }
+      if (course_join) {
+        await AsyncStorage.setItem('userCourseJoin', JSON.stringify(course_join), (error) => {
+          if(error) {
+            console.log("an error")
+            throw error
+          }
+          console.log("success")
+        }).catch((error) => {
+          console.log("error is : ",error)
+        })
+      }
+      if (detail) {
+        await AsyncStorage.setItem('userDetail', JSON.stringify(detail), (error) => {
+          if(error) {
+            console.log("an error")
+            throw error
+          }
+          console.log("success")
+        }).catch((error) => {
+          console.log("error is : ",error)
+        })
+      }
       console.log('Login Complete');
-      navigation.replace('Main2');
+      navigation.replace('Main2', {id: 4});
     } catch (error) {
       console.log("don't have user");
-      alert("don't have user");
+      alert('ไม่พบผู้ใช้นี้');
     }
   };
 

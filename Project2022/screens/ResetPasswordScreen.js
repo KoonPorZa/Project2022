@@ -9,28 +9,15 @@ const ResetPasswordScreen = () => {
   const [newpassword, setNewPassword] = useState('');
   const [repeatpassword, setRepeatPassword] = useState('');
   const navigation = useNavigation();
-    const onSubmitPress = () => {
-        alert('Submit')
-    }
-    const onBackPress = () => {
-        navigation.navigate('Main');
-      };
-
+  const onSubmitPress = () => {
+    alert('Submit');
+  };
   return (
     <View
       style={{
         flex: 1,
         backgroundColor: '#fff',
       }}>
-      {/* Header */}
-
-      <Appbar.Header
-        elevated={false}
-        style={{borderBottomWidth: 0.5, borderBottomColor: '#8e8e8e'}}>
-            <Appbar.BackAction onPress={onBackPress} />
-        <Appbar.Content title="เปลี่ยนรหัสผ่าน" style={{alignItems: 'flex-start'}} />
-      </Appbar.Header>
-
       {/* Input Form */}
       <View style={styles.form}>
         <TextInput

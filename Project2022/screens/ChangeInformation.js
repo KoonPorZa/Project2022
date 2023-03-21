@@ -9,7 +9,7 @@ import {
   FlatList,
   Platform,
 } from 'react-native';
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useMemo} from 'react';
 import {useForm, SubmitHandler, Controller} from 'react-hook-form';
 import {useNavigation} from '@react-navigation/native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
@@ -23,244 +23,63 @@ import {
 import SelectDropdown from 'react-native-select-dropdown';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
-import {ProvinceAPI} from '../Hooks/ProvinceAPI';
+import { ProvinceAPI } from '../Hooks/ProvinceAPI';
 import {role, onSubmit} from './SignUp';
 import moment from 'moment';
 // import DatePicker from 'react-native-modern-datepicker';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import axios from 'axios';
 import {GetToken} from './../Hooks/GetToken';
+import {GetDetailUser} from '../Hooks/GetDetailUser';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export const Step_1 = ({handleNext, activeStep, myForm}) => {
-  const navigation = useNavigation();
+const ChangeInformation = () => {
+  const {userDetail} = GetDetailUser();
 
-  const onHadAccountPress = () => {
-    navigation.navigate('Main');
-  };
+  console.log('newData 3 > ', userDetail);
+  // const data = userDetail !== undefined ? userDetail : null
+  // const [state, setState] = useState(data)
+  // useEffect(()=> {
+  //   if(userDetail !== undefined) {setState(userDetail)}
+  // },[data])
+  // const data = useMemo(() => {
+  //   return userDetail
+  // },[userDetail])
 
-  const {watch, setValue} = myForm;
-  const textEmail = watch('email');
-  const textPassword = watch('password');
-  const textConfirmPassword = watch('confirmPassword');
-  const [checkValidEmail, setCheckValidEmail] = useState(false);
-  const [checkValidpass, setCheckValidPass] = useState(false);
-  const [checkValidConfirm, setCheckValidConfirm] = useState(false)
+  // useEffect(() => {
+  //   if (userDetail) {
+  //     myForm.reset(userDetail);
+  //   }
+  // }, [userDetail]);
 
-  useEffect(() => {
-    if (textEmail !== null) {
-      checkEmail();
-    }
-    if (textPassword !== null) {
-      checkPassword();
-    }
-    setCheckValidConfirm(textPassword === textConfirmPassword ? true : false)
-  }, [textEmail, textPassword, textConfirmPassword]);
-
-  const checkEmail = () => {
-    let re = /\S+@\S+\.\S+/;
-    // let regex = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im;
-    if (re.test(textEmail)) {
-      setCheckValidEmail(true);
-    } else {
-      setCheckValidEmail(false);
-    }
-  };
-
-  const checkPassword = () => {
-    setCheckValidPass(textPassword.length >= 4 ? true : false)
-  };
-
-  const onContinuePress = () => {
-    if (textEmail == null) {
-      alert('กรุณากรอกอีเมล');
-    } else if (checkValidEmail == false) {
-      alert('รูปแบบอีเมลไม่ถูกต้อง');
-    } else if (textPassword == null) {
-      alert('กรุณากรอกรหัสผ่าน');
-    } else if (checkValidpass == false) {
-      alert('กรุณากรอกรหัสผ่านอย่างน้อย 4 ตัวอักษร')
-    } else if (checkValidConfirm == false) {
-      alert('รหัสผ่านไม่ตรงกัน')
-    } else {
-      handleNext();
-    }
-  };
-
-  return (
-    <View
-      style={{
-        flex: 1,
-        // height: '40%',
-        backgroundColor: 'blue',
-      }}>
-      {/* Header */}
-      {/* <Appbar.Header
-        elevated={false}
-        style={{borderBottomWidth: 0.5, borderBottomColor: '#8e8e8e'}}>
-        <Appbar.BackAction
-          onPress={() => {
-            navigation.navigate('Main');
-          }}
-        />
-        <Appbar.Content title="สร้างบัญชี" />
-      </Appbar.Header> */}
-
-      {/* Input Email Form */}
-
-      <View style={styles.form}>
-        {/* Start Hook Test */}
-        <Controller
-          control={myForm.control}
-          rules={{
-            required: true,
-          }}
-          render={({field: {onChange, value}}) => (
-            <TextInput
-              style={styles.input}
-              label={'Email'}
-              value={value}
-              onChangeText={onChange}
-              mode="outlined"
-              activeOutlineColor="#5C51A4"
-              outlineStyle={{borderRadius: 15}}
-            />
-          )}
-          name="email"
-        />
-        {/* {errors.email && <Text style={{color: 'red'}}>This is required.</Text>} */}
-        <Controller
-          control={myForm.control}
-          rules={{
-            required: true,
-          }}
-          render={({field: {onChange, value}}) => (
-            <TextInput
-              style={styles.input}
-              label={'Password'}
-              value={value}
-              onChangeText={onChange}
-              mode="outlined"
-              activeOutlineColor="#5C51A4"
-              outlineStyle={{borderRadius: 15}}
-              secureTextEntry
-            />
-          )}
-          name="password"
-        />
-        <Controller
-          control={myForm.control}
-          rules={{
-            required: true,
-          }}
-          render={({field: {onChange, value}}) => (
-            <TextInput
-              style={styles.input}
-              label={'Confirm Password'}
-              value={value}
-              onChangeText={onChange}
-              mode="outlined"
-              activeOutlineColor="#5C51A4"
-              outlineStyle={{borderRadius: 15}}
-              secureTextEntry
-            />
-          )}
-          name="confirmPassword"
-        />
-        <Button
-          style={styles.btn}
-          mode="contained"
-          buttonColor="#5C51A4"
-          onPress={() => onContinuePress()}>
-          ต่อไป
-        </Button>
-        {/* End Hook Test */}
-        <TouchableOpacity>
-          <Text style={styles.text} onPress={onHadAccountPress}>
-            ฉันมีบัญชีผู้ใช้แล้ว
-          </Text>
-        </TouchableOpacity>
-      </View>
-    </View>
-  );
-};
-
-export const Step_2 = ({handleNext, activeStep, handleBack, myForm}) => {
-  const navigation = useNavigation();
-  const {token} = GetToken();
-  // Submit
-  const onSubmit = async data => {
-    console.log(data);
-    const addUser = async params => {
-      const url = `http://192.168.152.48:8000/user/register_mobile`;
-      try {
-        await axios.post(url, params);
-        console.log('Try addUser Complete');
-        return true;
-      } catch (error) {
-        console.log('Catch addUser :' + error);
-      }
-    };
-    if (data) {
-      try {
-        const result = await addUser(data);
-        if (result == true) {
-          console.log('Register Complete !!!');
-          alert('Register Complete !!!');
-          token == null
-            ? navigation.replace('Main')
-            : navigation.replace('Main2');
-        } else {
-          console.log('Register Error !!!');
-          // setActiveStep(0)
-          // navigation.navigate('Main')
-        }
-      } catch (error) {
-        console.log('Catch : ' + error);
-      }
-    } else {
-      console.log('test log else');
-    }
-  };
-
-  //Fetch Test
-  const {watch, setValue} = myForm;
+  const myForm = useForm({
+    defaultValues: {
+      email: null,
+      password: null,
+      confirmPassword: null,
+      firstName: null,
+      lastName: '',
+      job: '',
+      birthday: new Date(),
+      province: null,
+      amphure: null,
+      tambon: null,
+      zipCode: null,
+      agency: '',
+      status: null,
+      about: '',
+      image_rul: '',
+      id_verify: '',
+      address: '',
+    },
+  });
   const {
-    province,
-    amphure,
-    getAmphure,
-    tambon,
-    getTambon,
-    zipcode,
-    getZipcode,
-  } = ProvinceAPI();
-  const changeProvince = watch('province');
-  const changeAmphure = watch('amphure');
-  const changeTambon = watch('tambon');
-
-  useEffect(() => {
-    if (changeProvince) {
-      getAmphure(parseInt(`${changeProvince.id}`));
-    }
-  }, [changeProvince]);
-
-  useEffect(() => {
-    if (changeProvince && changeAmphure) {
-      getTambon(
-        parseInt(`${changeProvince.id}`),
-        parseInt(`${changeAmphure.id}`),
-      );
-    }
-  }, [changeAmphure]);
-
-  useEffect(() => {
-    if (changeTambon) {
-      getZipcode(parseInt(`${changeTambon.id}`));
-    }
-  }, [changeTambon]);
-
-  const onCancelPress = () => {
-    navigation.navigate('Main');
-  };
+    control,
+    handleSubmit,
+    formState: {errors},
+    watch,
+    getValues,
+  } = myForm;
 
   // Date
   const [date, setDate] = useState(new Date());
@@ -290,55 +109,76 @@ export const Step_2 = ({handleNext, activeStep, handleBack, myForm}) => {
     setShow(true);
   };
 
-  // const [imageUri, setImageUri] = useState('');
-  // const [imageUriGallary, setImageUriGallary] = useState('');
-  // const onCameraPress = () => {
-  //   const options = {
-  //     storageOption: {
-  //       path: 'images',
-  //       mediaType: 'photo',
-  //     },
-  //     includeBase64: true,
-  //   };
+  // Address
+  const {
+    province,
+    amphure,
+    getAmphure,
+    tambon,
+    getTambon,
+    zipcode,
+    getZipcode,
+  } = ProvinceAPI();
+  const changeProvince = watch('province');
+  const changeAmphure = watch('amphure');
+  const changeTambon = watch('tambon');
 
-  //   launchCamera(options, response => {
-  //     console.log('Response = ', response);
-  //     if (response.didCancel) {
-  //       console.log('User cancelled image picker');
-  //     } else if (response.error) {
-  //       console.log('ImagePicker Error: ', response.error);
-  //     } else if (response.customButton) {
-  //       console.log('User tapped custom button: ', response.customButton);
-  //     } else {
-  //       const source = {uri: 'data:image/jpeg;base64,' + response.base64};
-  //       setImageUri(source);
-  //     }
-  //   });
-  // };
+    useEffect(() => {
+    if (changeProvince) {
+      getAmphure(parseInt(`${changeProvince.id}`));
+    }
+  }, [changeProvince]);
 
-  // const onGallaryPress = () => {
-  //   const options = {
-  //     storageOption: {
-  //       path: 'images',
-  //       mediaType: 'photo',
-  //     },
-  //     includeBase64: true,
-  //   };
+  useEffect(() => {
+    if (changeProvince && changeAmphure) {
+      getTambon(
+        parseInt(`${changeProvince.id}`),
+        parseInt(`${changeAmphure.id}`),
+      );
+    }
+  }, [changeAmphure]);
 
-  //   launchImageLibrary(options, response => {
-  //     console.log('Response = ', response);
-  //     if (response.didCancel) {
-  //       console.log('User cancelled image picker');
-  //     } else if (response.error) {
-  //       console.log('ImagePicker Error: ', response.error);
-  //     } else if (response.customButton) {
-  //       console.log('User tapped custom button: ', response.customButton);
-  //     } else {
-  //       const source = {uri: 'data:image/jpeg;base64,' + response.base64};
-  //       setImageUriGallary(source);
-  //     }
-  //   });
-  // };
+  useEffect(() => {
+    if (changeTambon) {
+      getZipcode(parseInt(`${changeTambon.id}`));
+    }
+  }, [changeTambon]);
+  
+
+  // onSubmit
+  const onSubmit = data => {
+    console.log('data > ');
+    // const addUser = async params => {
+    //   const url = `http://192.168.152.48:8000/user/register_mobile`;
+    //   try {
+    //     await axios.post(url, params);
+    //     console.log('Try addUser Complete');
+    //     return true;
+    //   } catch (error) {
+    //     console.log('Catch addUser :' + error);
+    //   }
+    // };
+    // if (data) {
+    //   try {
+    //     const result = await addUser(data);
+    //     if (result == true) {
+    //       console.log('Register Complete !!!');
+    //       alert('Register Complete !!!');
+    //       token == null
+    //         ? navigation.replace('Main')
+    //         : navigation.replace('Main2');
+    //     } else {
+    //       console.log('Register Error !!!');
+    //       // setActiveStep(0)
+    //       // navigation.navigate('Main')
+    //     }
+    //   } catch (error) {
+    //     console.log('Catch : ' + error);
+    //   }
+    // } else {
+    //   console.log('test log else');
+    // }
+  };
 
   return (
     <View
@@ -347,86 +187,12 @@ export const Step_2 = ({handleNext, activeStep, handleBack, myForm}) => {
         backgroundColor: '#fff',
         justifyContent: 'center',
       }}>
-      {/* Header */}
-      {/* <Appbar.Header
-        elevated={false}
-        style={{borderBottomWidth: 0.5, borderBottomColor: '#8e8e8e'}}>
-        <Appbar.BackAction onPress={handleBack} />
-        <Appbar.Content title="ข้อมูลส่วนตัว" />
-      </Appbar.Header> */}
-
-      {/* Input Form */}
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.form}>
-          {/* <Avatar.Image
-            size={120}
-            source={{uri: 'https://picsum.photos/500'}}
-          />
-          <View
-            style={{
-              width: 260,
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              marginVertical: 10,
-            }}>
-            <Button
-              icon="camera"
-              mode="outlined"
-              textColor="#9382FF"
-              style={{borderColor: '#8e8e8e', width: 120}}
-              onPress={() => {}}>
-              Camera
-            </Button>
-            <Button
-              icon="upload"
-              mode="outlined"
-              textColor="#9382FF"
-              style={{borderColor: '#8e8e8e', width: 120}}
-              onPress={() => {}}>
-              Upload
-            </Button>
-          </View> */}
-
-          {/* <Image
-            source={imageUri}
-            style={{
-              height: 100,
-              width: 100,
-              borderRadius: 100,
-              borderWidth: 1,
-              borderColor: 'black',
-            }}
-          />
-          <Button
-            style={styles.btn}
-            mode="contained"
-            buttonColor="#5C51A4"
-            onPress={onCameraPress}>
-            Camera
-          </Button>
-
-          <Image
-            source={imageUriGallary}
-            style={{
-              height: 100,
-              width: 100,
-              borderRadius: 100,
-              borderWidth: 1,
-              borderColor: 'black',
-            }}
-          />
-          <Button
-            style={styles.btn}
-            mode="contained"
-            buttonColor="#5C51A4"
-            onPress={onGallaryPress}>
-            Gallary
-          </Button> */}
-
           <Controller
-            control={myForm.control}
+            control={control}
             rules={{
-              required: true,
+              required: false,
             }}
             render={({field: {onChange, value}}) => (
               <TextInput
@@ -462,7 +228,7 @@ export const Step_2 = ({handleNext, activeStep, handleBack, myForm}) => {
           <Controller
             control={myForm.control}
             rules={{
-              required: true,
+              required: false,
             }}
             render={({field: {onChange, value}}) => (
               <TextInput
@@ -480,7 +246,7 @@ export const Step_2 = ({handleNext, activeStep, handleBack, myForm}) => {
           <Controller
             control={myForm.control}
             rules={{
-              required: true,
+              required: false,
             }}
             render={({field: {onChange, value}}) => (
               <TextInput
@@ -498,7 +264,7 @@ export const Step_2 = ({handleNext, activeStep, handleBack, myForm}) => {
           <Controller
             control={myForm.control}
             rules={{
-              required: true,
+              required: false,
             }}
             render={({field: {onChange, value}}) => (
               <TextInput
@@ -513,11 +279,10 @@ export const Step_2 = ({handleNext, activeStep, handleBack, myForm}) => {
             )}
             name="agency"
           />
-
           <Controller
             control={myForm.control}
             rules={{
-              required: true,
+              required: false,
             }}
             render={({field: {onChange, value}}) => (
               <View
@@ -559,7 +324,7 @@ export const Step_2 = ({handleNext, activeStep, handleBack, myForm}) => {
           <Controller
             control={myForm.control}
             rules={{
-              required: true,
+              required: false,
             }}
             render={({field: {onChange, value}}) => (
               <TextInput
@@ -574,10 +339,10 @@ export const Step_2 = ({handleNext, activeStep, handleBack, myForm}) => {
             )}
             name="address"
           />
-          <Controller
+          {/* <Controller
             control={myForm.control}
             rules={{
-              required: true,
+              required: false,
             }}
             render={({field: {onChange, value}}) => (
               <SelectDropdown
@@ -618,7 +383,7 @@ export const Step_2 = ({handleNext, activeStep, handleBack, myForm}) => {
           <Controller
             control={myForm.control}
             rules={{
-              required: true,
+              required: false,
             }}
             render={({field: {onChange, value}}) => (
               <SelectDropdown
@@ -657,7 +422,7 @@ export const Step_2 = ({handleNext, activeStep, handleBack, myForm}) => {
           <Controller
             control={myForm.control}
             rules={{
-              required: true,
+              required: false,
             }}
             render={({field: {onChange, value}}) => (
               <SelectDropdown
@@ -696,7 +461,7 @@ export const Step_2 = ({handleNext, activeStep, handleBack, myForm}) => {
           <Controller
             control={myForm.control}
             rules={{
-              required: true,
+              required: false,
             }}
             render={({field: {onChange, value}}) => (
               <SelectDropdown
@@ -736,7 +501,7 @@ export const Step_2 = ({handleNext, activeStep, handleBack, myForm}) => {
           <Controller
             control={myForm.control}
             rules={{
-              required: true,
+              required: false,
             }}
             render={({field: {onChange, value}}) => (
               <SelectDropdown
@@ -771,28 +536,21 @@ export const Step_2 = ({handleNext, activeStep, handleBack, myForm}) => {
               />
             )}
             name="status"
-          />
-          <View style={{flexDirection: 'row'}}>
-            <Button
-              style={styles.btn}
-              mode="outlined"
-              textColor="#5C51A4"
-              onPress={onCancelPress}>
-              ยกเลิก
-            </Button>
-            <Button
-              style={styles.btn}
-              mode="contained"
-              buttonColor="#5C51A4"
-              onPress={myForm.handleSubmit(onSubmit)}>
-              สร้างบัญชี
-            </Button>
-          </View>
+          /> */}
+          <Button
+            style={styles.btn}
+            mode="contained"
+            buttonColor="#5C51A4"
+            onPress={handleSubmit(onSubmit)}>
+            ยืนยัน
+          </Button>
         </View>
       </ScrollView>
     </View>
   );
 };
+
+export default ChangeInformation;
 
 const styles = StyleSheet.create({
   form: {

@@ -16,6 +16,7 @@ const AboutUser = () => <AboutUserScreen />;
 
 const MainScreen2 = () => {
   const [index, setIndex] = useState(0);
+
   const [routes] = useState([
     {
       key: 'home',
@@ -24,7 +25,7 @@ const MainScreen2 = () => {
       unfocusedIcon: 'home-outline',
     },
     {key: 'queue', title: 'เข้าคิว', focusedIcon: 'human-queue'},
-    {key: 'mycourse', title: 'หลักสูตรของฉัน', focusedIcon: 'bookshelf'},
+    {key: 'mycourse', title: 'คอร์สของฉัน', focusedIcon: 'bookshelf'},
     {
       key: 'favorite',
       title: 'ถูกใจ',
@@ -46,6 +47,8 @@ const MainScreen2 = () => {
     favorite: Favorite,
     page: AboutUser
   });
+
+  
 
   return (
     <BottomNavigation

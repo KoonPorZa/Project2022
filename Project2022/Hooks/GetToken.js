@@ -8,7 +8,7 @@ export const GetToken = () => {
     handleGetToken();
   }, []);
   const handleGetToken = async () => {
-    await AsyncStorage.setItem('AccessToken', '');
+    // await AsyncStorage.setItem('AccessToken', '');
     try {
       const dataToken = await AsyncStorage.getItem('AccessToken');
       setToken(dataToken);

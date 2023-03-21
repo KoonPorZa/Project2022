@@ -37,9 +37,9 @@ const SignUp = () => {
   // Hook
   const myForm = useForm({
     defaultValues: {
-      email: '',
-      password: '',
-      confirmPassword: '',
+      email: null,
+      password: null,
+      confirmPassword: null,
       firstName: '',
       lastName: '',
       job: '',

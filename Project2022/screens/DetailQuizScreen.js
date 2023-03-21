@@ -5,11 +5,13 @@ import {useNavigation} from '@react-navigation/native';
 import {Rating} from 'react-native-ratings';
 import DatePicker from 'react-native-date-picker';
 import { GetToken } from '../Hooks/GetToken';
+import moment from 'moment'
 
-const QuizScreen = () => {
+const QuizScreen = ({route}) => {
   const [queue, setQueue] = useState(0);
   const {token} = GetToken()
   const navigation = useNavigation();
+  const {detail} = route.params
 
   // Toggle Button
   const [status, setStatus] = useState('unchecked');
@@ -43,10 +45,6 @@ const QuizScreen = () => {
     alert('เช็คชื่อ')
   };
 
-  const onBackPress = () => {
-    token == null ? navigation.replace('Main') : navigation.replace('Main2')
-  };
-
   return (
     <View
       style={{
@@ -55,39 +53,39 @@ const QuizScreen = () => {
       }}>
       {/* Header */}
 
-      <Appbar.Header
+      {/* <Appbar.Header
         elevated={false}
         style={{borderBottomWidth: 0.5, borderBottomColor: '#8e8e8e'}}>
         <Appbar.BackAction onPress={onBackPress} />
-        <Appbar.Content title="รายละเอียดหลักสูตร" />
-      </Appbar.Header>
+        <Appbar.Content title="รายละเอียดคอร์ส" />
+      </Appbar.Header> */}
       <ScrollView showsVerticalScrollIndicator={false}>
         <Image
-          source={{uri: 'https://picsum.photos/710'}}
+          source={{uri: detail.image}}
           style={styles.image}
         />
         <View style={styles.content}>
           <Title style={[styles.text, {fontWeight: 'bold'}]}>
-            พัฒนาโมไบล์ด้วย Flutter 3.3.1 (Building 15 Projects)
+            {detail.title}
           </Title>
           <Text style={styles.text}>
-            ออกแบบและพัฒนา App บน Android, iOS ด้วยการเขียนโค้ดเพียงครั้งเดียว
+            {detail.description}
           </Text>
-          <View style={styles.rating}>
+          {/* <View style={styles.rating}>
             <Text style={{fontSize: 12, marginRight: 3}}>5.0</Text>
             <Rating imageSize={12} startingValue={5} readonly />
             <Text style={{fontSize: 12, marginLeft: 10}}>
               (200 คะแนน) 200 ผู้เรียน
             </Text>
-          </View>
-          <Text style={styles.text}>สร้างโดย จักริน นิลพันธ์</Text>
+          </View> */}
+          <Text style={[styles.text, {marginTop: 5}]}>สร้างโดย {detail.create_byName}</Text>
           <View style={styles.detail}>
-            <Text style={styles.text}>ลงทะเบียนได้ถึง {currentDate}</Text>
+            <Text style={styles.text}>เริ่มลงทะเบียน {moment(detail.start_register).format('DD MMMM YYYY')} ถึง {moment(detail.end_register).format('DD MMMM YYYY')}</Text>
             <Text style={styles.text}>
-              เริ่มเรียน {currentDate} ถึง {currentDate}
+              เริ่มเรียน {moment(detail.start_learn).format('DD MMMM YYYY')} ถึง {moment(detail.end_learn).format('DD MMMM YYYY')}
             </Text>
-            <Text style={styles.text}>วันที่เรียน พุธ เวลา {currentTime}</Text>
-            <Text style={styles.text}>จำนวนผู้เข้าคิว {queue}</Text>
+            <Text style={styles.text}>วันที่เรียน  เวลา</Text>
+            <Text style={styles.text}>จำนวนผู้เข้าคิว</Text>
             <View style={{marginVertical: 5}} />
             <Text style={[styles.text, {fontWeight: 'bold', fontSize: 20}]}>
               สิ่งที่คุณจะได้เรียนรู้
@@ -107,9 +105,9 @@ const QuizScreen = () => {
               คำอธิบาย
             </Text>
             <Text style={styles.text}>
-              หลักสูตรนี้คุณจะได้เรียนรู้การประยุกต์ใช้งาน Flutter
+              คอร์สนี้คุณจะได้เรียนรู้การประยุกต์ใช้งาน Flutter
               สำหรับการสร้างโมไบล์แอปพลิเคชันทั้งหมด 15 แอปพลิเคชัน
-              รวมอยู่ในหลักสูตรเดียว อัดแน่นด้วยเนื้อหาคุณภาพจากผู้สอนที่ชำนาญ
+              รวมอยู่ในคอร์สเดียว อัดแน่นด้วยเนื้อหาคุณภาพจากผู้สอนที่ชำนาญ
             </Text>
           </View>
           <View style={styles.detail}>
@@ -123,6 +121,13 @@ const QuizScreen = () => {
             />
             <Text style={styles.text}></Text>
           </View>
+
+          {/* Comment Zone */}
+          {/* <View style={styles.detail}>
+            <Text style={[styles.text, {fontWeight: 'bold', fontSize: 16}]}>
+              ความคิดเห็นเกี่ยวกับคอร์สนี้
+            </Text>
+          </View> */}
         </View>
 
         {/* <Button title="Open" onPress={() => setOpen(true)} /> */}

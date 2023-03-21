@@ -15,13 +15,15 @@ import InformationScreen from './screens/InformationScreen';
 import DetailCourseScreen from './screens/DetailCourseScreen';
 import BuyCourseScreen from './screens/BuyCourseScreen';
 import QueueScreen from './screens/tabs/QueueScreen';
-import QuizScreen from './screens/QuizScreen';
+import DetailQuizScreen from './screens/DetailQuizScreen';
 import Quiz from './screens/Quiz';
 import ForgotPasswordScreen from './screens/ForgotPasswordScreen';
 import CategoryScreen from './screens/CategoryScreen';
 import ResetPasswordScreen from './screens/ResetPasswordScreen';
 import AboutUserScreen from './screens/tabs/AboutUserScreen';
-
+import ShowInformation from './screens/ShowInformation';
+import ChangeInformation from './screens/ChangeInformation';
+import DetailQueueScreen from './screens/DetailQueueScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -52,47 +54,62 @@ const App = () => {
         <Stack.Screen
           name="SignUp"
           component={SignUp}
-          options={{headerShown: false}}
+          options={{headerShown: true, title: "สร้างบัญชี"}}
         />
         <Stack.Screen
           name="Information"
           component={InformationScreen}
-          options={{headerShown: false}}
+          options={{headerShown: true, title: "กรอกข้อมูลส่วนตัว"}}
         />
         <Stack.Screen
           name="BuyCourse"
           component={BuyCourseScreen}
-          options={{headerShown: false}}
+          options={{headerShown: true, title: "การชำระเงิน"}}
         />
         <Stack.Screen
           name="DetailCourse"
           component={DetailCourseScreen}
-          options={{headerShown: false}}
+          options={{headerShown: true, title: "รายละเอียดคอร์ส"}}
         />
         <Stack.Screen
-          name="QuizScreen"
-          component={QuizScreen}
-          options={{headerShown: false}}
+          name="DetailQueue"
+          component={DetailQueueScreen}
+          options={{headerShown: true, title: "รายละเอียดคอร์ส"}}
+        />
+        <Stack.Screen
+          name="DetailQuiz"
+          component={DetailQuizScreen}
+          options={{headerShown: true, title: "รายละเอียดคอร์ส"}}
         />
         <Stack.Screen
           name="Quiz"
           component={Quiz}
-          options={{headerShown: false}}
+          options={{headerShown: true, title: "แบบทดสอบ"}}
         />
         <Stack.Screen
           name="ForgotPassword"
           component={ForgotPasswordScreen}
-          options={{headerShown: false}}
+          options={{headerShown: true, title: "ลืมรหัสผ่าน"}}
         />
         <Stack.Screen
           name="Category"
           component={CategoryScreen}
-          options={{headerShown: false}}
+          options={{headerShown: true, title: "หมวดหมู่"}}
         />
         <Stack.Screen
           name="ResetPassword"
           component={ResetPasswordScreen}
-          options={{headerShown: false}}
+          options={{headerShown: true, title: "เปลี่ยนรหัสผ่าน"}}
+        />
+        <Stack.Screen
+          name="ShowInformation"
+          component={ShowInformation}
+          options={{headerShown: true, title: "ข้อมูลผู้ใช้"}}
+        />
+        <Stack.Screen
+          name="ChangeInformation"
+          component={ChangeInformation}
+          options={{headerShown: true, title: "แก้ไขข้อมูลผู้ใช้"}}
         />
         <Stack.Screen
           name="AboutUser"

@@ -6,29 +6,37 @@ import {useNavigation} from '@react-navigation/native';
 import {Rating} from 'react-native-ratings';
 
 // Hook
-import {CourseAPI} from './../../Hooks/Course/CourseAPI';
-import { GetToken } from '../Hooks/GetToken';
+import {JoinCourseAPI} from './../../Hooks/Course/JoinCourseAPI';
+import { CourseAPI } from '../../Hooks/Course/CourseAPI';
+import {GetToken} from '../Hooks/GetToken';
 
 const MyCourseScreen = () => {
-  let cardTitle = 'พัฒนาโมไบล์ด้วย Flutter 3.3.1 (Building 15 Projects)';
-  let cardSubtitle = 'โดย ' + 'จักริน นิลพันธ์';
-
   const navigation = useNavigation();
+  const {data} = CourseAPI();
 
-  const [status, setStatus] = React.useState('unchecked');
-  const [icon, setIcon] = React.useState('heart-outline');
+  const [status, setStatus] = useState('unchecked');
+  const [icon, setIcon] = useState('heart-outline');
 
   const onButtonToggle = value => {
     setStatus(status === 'checked' ? 'unchecked' : 'checked');
     setIcon(status === 'checked' ? 'heart-outline' : 'heart');
   };
 
-  const onCardPress = () => {
-    navigation.navigate('QuizScreen');
+  const onCardPress = id => {
+    const detailcourse = data.find((item, index) => item.id_document === id);
+    navigation.navigate('DetailQuiz', {detail: detailcourse});
   };
 
-  const {data} = CourseAPI();
+  // const {data} = CourseAPI();
+  const {joinid} = JoinCourseAPI()
 
+  // const newData = joinid.map((item, index) => {
+  //   console.log('newData > ',item)
+  // })
+
+  const refreshPress = () => {
+    alert('refresh')
+  }
   return (
     <View
       style={{
@@ -39,8 +47,8 @@ const MyCourseScreen = () => {
       <Appbar.Header
         elevated={false}
         style={{borderBottomWidth: 0.5, borderBottomColor: '#8e8e8e'}}>
-        <Appbar.Content title="หลักสูตรที่ลงทะเบียน" />
-        <Appbar.Action icon="magnify" onPress={() => {}} />
+        <Appbar.Content title="คอร์สของฉัน" />
+        <Appbar.Action icon="reload" onPress={refreshPress} />
       </Appbar.Header>
 
       <ScrollView
@@ -48,48 +56,32 @@ const MyCourseScreen = () => {
           height: '100%',
         }}>
         {/* Card */}
-        <Card style={styles.card} onPress={onCardPress}>
-          <Card.Cover
-            style={styles.card_cover}
-            source={{uri: 'https://picsum.photos/710'}}
-          />
-          <Card.Title title={cardTitle} subtitle={cardSubtitle} />
-          <View style={styles.container}>
-            <Card.Content style={styles.content}>
-              <Rating imageSize={12} startingValue={5} readonly />
-              <Text style={[styles.text, {marginTop: 5}]} variant="bodyMedium">
-                ชำระเงินแล้ว
-              </Text>
-            </Card.Content>
-            {/* Heart Icon */}
-            <ToggleButton
-              style={{marginRight: 10}}
-              icon={icon}
-              status={status}
-              onPress={onButtonToggle}
-            />
-          </View>
-        </Card>
-        {data.map((item, index) => {
+        {joinid && joinid.length > 0 ? joinid.map((item, index) => {
           if (item.approval == true) {
-            console.log('Home Fetch');
             return (
               <React.Fragment key={index}>
-                {/* {console.log(item.title)}
-              <Text style={{color: 'black'}}>{item.title}</Text> */}
-
-                <Card style={styles.card} onPress={onCardPress}>
+                <Card style={styles.card} onPress={()=>onCardPress(item.course_id)}>
                   <Card.Cover
                     style={styles.card_cover}
-                    source={{uri: `${item.image}`}}
+                    source={{uri: `${item.image_course}`}}
                   />
+                  <View style={{marginLeft: 15, marginTop: 10, marginBottom: -12}}>
+                    <Text
+                      style={[styles.text, {color: '#9382FF', fontWeight: 'bold'}]}
+                      variant="bodyMedium">
+                      {`${data?.find((params, index) => params.id_document === item.course_id)
+                          .course_status.map((i, index) => {
+                            return index !== 0 ? ' ' + i.label : i.label;
+                          })}`}
+                    </Text>
+                  </View>
                   <Card.Title
-                    title={`${item.title}`}
-                    subtitle={'โดย ' + `${item.create_byName}`}
+                    title={`${item.courseName}`}
+                    subtitle={'หมวดหมู่ ' + `${item.category_title}`}
                   />
                   <View style={styles.container}>
                     <Card.Content style={styles.content}>
-                      <Rating imageSize={12} startingValue={5} readonly />
+                      {/* <Rating imageSize={12} startingValue={5} readonly /> */}
                       <Text
                         style={[styles.text, {marginTop: 5}]}
                         variant="bodyMedium">
@@ -97,18 +89,19 @@ const MyCourseScreen = () => {
                       </Text>
                     </Card.Content>
                     {/* Heart Icon */}
-                    <ToggleButton
+                    {/* <ToggleButton
                       style={{marginRight: 10}}
                       icon={icon}
                       status={status}
                       onPress={onButtonToggle}
-                    />
+                    /> */}
                   </View>
                 </Card>
               </React.Fragment>
             );
-          }
-        })}
+        }}) : (<View style={styles.view}>
+          <Text style={styles.text}>คุณไม่มีคอร์สที่ลงทะเบียนแล้ว</Text>
+        </View>)}
       </ScrollView>
     </View>
   );
@@ -134,4 +127,10 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     marginBottom: 10,
   },
+  view: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: 100
+  }
 });

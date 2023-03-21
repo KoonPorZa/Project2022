@@ -56,12 +56,12 @@ const BuyCourseScreen = () => {
       }}>
       {/* Header */}
 
-      <Appbar.Header
+      {/* <Appbar.Header
         elevated={false}
         style={{borderBottomWidth: 0.5, borderBottomColor: '#8e8e8e'}}>
         <Appbar.BackAction onPress={onBackPress} />
         <Appbar.Content title="การชำระเงิน" />
-      </Appbar.Header>
+      </Appbar.Header> */}
       <ScrollView>
         <View
           style={{
@@ -80,7 +80,7 @@ const BuyCourseScreen = () => {
         <View style={{alignItems: 'center'}}>
           <View style={{flexDirection: 'row'}}>
             <View style={styles.left_box}>
-              <Text style={styles.txt}>ชื่อหลักสูตร</Text>
+              <Text style={styles.txt}>ชื่อคอร์ส</Text>
             </View>
             <View style={styles.right_box}>
               <Text style={styles.txt}>

@@ -4,35 +4,53 @@ import {Title, ToggleButton, Appbar, Button, Avatar} from 'react-native-paper';
 import {useNavigation} from '@react-navigation/native';
 import {Rating} from 'react-native-ratings';
 import DatePicker from 'react-native-date-picker';
-import moment from 'moment'
-
-// Hooks
 import {GetToken} from '../Hooks/GetToken'
-import { GetIdUser } from '../Hooks/GetIdUser';
-
-// API
 import { CourseAPI } from '../Hooks/Course/CourseAPI';
+import moment from 'moment'
 import { JoinCourseAPI } from './../Hooks/Course/JoinCourseAPI';
-import { useAddJoinCourseAPI } from '../Hooks/useAddJoinCourseAPI';
-import { useGetCourseAPI } from '../Hooks/useGetCourseAPI';
 
-const DetailCourseScreen = ({route}) => {
-  const {idUser} = GetIdUser()
+const DetailQueueScreen = ({route}) => {
   const {detail} = route.params
-  const {allJoinCourse, getJoinCourse} = useGetCourseAPI()
+  // console.log(detail.title)
   const [queue, setQueue] = useState(0);
-  const {addJoinCourse} = useAddJoinCourseAPI()
+  
+  const {joinid, getJoinId, addJoinCourse} = JoinCourseAPI()
 
   const navigation = useNavigation();
+
+  // Toggle Button
+  const [status, setStatus] = useState('unchecked');
+  const [icon, setIcon] = useState('heart-outline');
+  const onButtonToggle = value => {
+    setStatus(status === 'checked' ? 'unchecked' : 'checked');
+    setIcon(status === 'checked' ? 'heart-outline' : 'heart');
+  };
 
   // Datetime
   const [date, setDate] = useState(new Date());
   const [open, setOpen] = useState(false);
   const [currentDate, setCurrentDate] = useState('');
   const [currentTime, setCurrentTime] = useState('');
+  // useEffect(() => {
+  //   var date = new Date().getDate(); //Current Date
+  //   var month = new Date().getMonth() + 1; //Current Month
+  //   var year = new Date().getFullYear(); //Current Year
+  //   var hours = new Date().getHours(); //Current Hours
+  //   var min = new Date().getMinutes(); //Current Minutes
+  //   var sec = new Date().getSeconds(); //Current Seconds
+
+  //   var monthName = month == 1 ? 'มกราคม' : 'กุมภาพันธ์';
+  //   setCurrentDate(date + ' ' + monthName + ' ' + year + ' ');
+  //   setCurrentTime(hours + ':00 - ' + (hours + 3) + ':00 น.');
+  // }, []);
 
   // Hook GetToken
   const {token} = GetToken()
+  const [hadToken, setHadToken] = useState(false)
+  useEffect(() => {
+    setHadToken(token !== null ? true : false)
+  },[hadToken])
+  // Call Function onPress
   const onPaymentPress = () => {
     // navigation.navigate('BuyCourse');
     // console.log(token)
@@ -44,50 +62,13 @@ const DetailCourseScreen = ({route}) => {
     }
   };
 
-  const [Joinlist, SetJoinlist] = useState()
-  // useEffect(()=> {
-  //   SetJoinlist(allJoinCourse?.map((item,index)=> item.id_document))
-  // },[allJoinCourse])
-
-  const onJoinQueuePress = id_document => {
-    // if(token !== null) {
-    //   // navigation.navigate('BuyCourse');
-    //   let course = [...allJoinCourse?.map((item,index)=>item.id_document)]
-    //   console.log('1 course > ',course)
-    //   console.log('id_document > ',id_document)
-    //   if (course.some(item => item === id_document)) {
-    //     course = course.filter(item => item !== id_document);
-    //     console.log('del course : ', id_document)
-    //   } else {
-    //     course.push(id_document)
-    //     console.log('add course : ',id_document);
-    //   }
-    //   console.log('2 course : ',course)
-    //   addJoinCourse(course, idUser)
-    //   getJoinCourse()
-    // } else {
-    //   alert('กรุณาเข้าสู่ระบบ')
-    // }
-
+  const onCancelQueuePress = () => {
     if(token !== null) {
-      let course = [...allJoinCourse?.map((item,index)=>item.id_document)]
-      console.log('1 course > ',course)
-      console.log('id_document > ',id_document)
-      if (course.some(item => item === id_document)) {
-        course = course.filter(item => item !== id_document);
-        console.log('del course : ', id_document)
-      } else {
-        course.push(id_document)
-        console.log('add course : ',id_document);
-      }
-      console.log('2 course : ',course)
-      addJoinCourse(course, idUser)
-      getJoinCourse()
-    } else {
-      alert('กรุณาเข้าสู่ระบบ')
+      // navigation.navigate('BuyCourse');
+      alert('ยกเลิกจองคิวเรียบร้อย!!')
     }
-
   }
+
   return (
     <View
       style={{
@@ -194,12 +175,12 @@ const DetailCourseScreen = ({route}) => {
         </Text>
         <View style={{flexDirection: 'row', alignItems: 'center'}}>
           <Button
-            mode='contained'
-            buttonColor='#5C51A4'
+            mode="outlined"
+            textColor="#5C51A4"
             style={styles.btn}
-            onPress={()=>onJoinQueuePress(detail.id_document)}
+            onPress={()=>onCancelQueuePress()}
             labelStyle={styles.txtbtn}>
-            {Joinlist?.map((item,index)=>item.course_id).some((item)=>item===detail.id_document) ? 'ยกเลิกจอง' : 'จองคิว'}
+            ยกเลิกจอง
           </Button>
         </View>
       </Appbar>
@@ -207,7 +188,7 @@ const DetailCourseScreen = ({route}) => {
   );
 };
 
-export default DetailCourseScreen;
+export default DetailQueueScreen;
 
 const styles = StyleSheet.create({
   image: {
